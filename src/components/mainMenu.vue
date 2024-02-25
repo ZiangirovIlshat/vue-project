@@ -56,10 +56,25 @@
         overflow: hidden;
         border-radius: 50%;
 
+        @media (max-width: 576px) {
+            width: 24px;
+            height: 24px;
+        }
+
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+
+        @media (max-width: 576px) {
+            width: 18px;
+            height: 18px;
         }
     }
 }

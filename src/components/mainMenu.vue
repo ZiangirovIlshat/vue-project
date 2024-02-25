@@ -11,7 +11,7 @@
             <li>
                 <router-link to="/">
                     <div class="menu__img-container">
-                        <img src="../assets/Photo.png" alt="">
+                        <img :src="avatarUrl" alt="Фото">
                     </div>
                 </router-link>
             </li>
@@ -31,6 +31,9 @@
 
     export default defineComponent({
         name: "mainMenu",
+        props: {
+            avatarUrl: String,
+        }
     })
 </script>
 
@@ -50,7 +53,7 @@
 
         img {
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
         }
     }

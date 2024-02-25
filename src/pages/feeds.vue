@@ -2,10 +2,14 @@
     <topline>
         <template #headline>
             <logo />
-            <mainMenu />
+            <mainMenu avatarUrl="https://avatanplus.com/files/resources/mid/59aeab5bb905315e524d5e6e.jpg" />
         </template>
         <template #content>
-            
+            <ul>
+                <li>
+                    <userStory userName="Jon Doe" avatarUrl="https://avatanplus.com/files/resources/mid/59aeab5bb905315e524d5e6e.jpg"></userStory>
+                </li>
+            </ul>
         </template>
     </topline>
 </template>
@@ -15,6 +19,7 @@
     import topline from "../components/topline";
     import logo from "../components/logo";
     import mainMenu from "../components/mainMenu";
+    import userStory from "../components/userStory";
 
     export default defineComponent({
         name: "feeds",
@@ -22,6 +27,7 @@
             topline,
             logo,
             mainMenu,
+            userStory,
         }
     })
 </script>

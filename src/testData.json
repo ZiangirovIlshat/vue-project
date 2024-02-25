@@ -1,0 +1,32 @@
+[
+    {
+        "id": 0,
+        "name": "Рыжова Варвара",
+        "avatarUrl": "https://jjji.ru/500x500"
+    },
+    {
+        "id": 1,
+        "name": "Бурова Ольга",
+        "avatarUrl": "https://jjji.ru/400x150"
+    },
+    {
+        "id": 2,
+        "name": "Зотова Вероника",
+        "avatarUrl": "https://jjji.ru/200x150"
+    },
+    {
+        "id": 3,
+        "name": "Исаев Матвей",
+        "avatarUrl": "https://jjji.ru/500x333"
+    },
+    {
+        "id": 4,
+        "name": "Лебедев Борис",
+        "avatarUrl": "https://jjji.ru/300x300"
+    },
+    {
+        "id": 5,
+        "name": "Соловьев Виктор",
+        "avatarUrl": "https://jjji.ru/150x100"
+    }
+]

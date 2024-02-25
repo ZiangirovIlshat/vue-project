@@ -11,7 +11,7 @@
             <li>
                 <router-link to="/">
                     <div class="menu__img-container">
-                        <img :src="avatarUrl" alt="">
+                        <img :src="avatarUrl">
                     </div>
                 </router-link>
             </li>

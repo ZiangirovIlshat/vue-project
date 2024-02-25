@@ -14,6 +14,7 @@
 
 <style lang="scss">
   #app {
+    font-size: 14px;
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;

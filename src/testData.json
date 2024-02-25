@@ -41,6 +41,9 @@
             "id": 1,
             "name": "Vue.js",
             "text": "<b>JavaScript</b> framework for building interactive web applications ⚡",
+            "fork": 4,
+            "date": "15 MAY",
+            "stars": "156k",
             "author": {
                 "id": 4,
                 "name": "Колобкова-Крупчатникова Светлана",
@@ -68,6 +71,9 @@
             "id": 2,
             "name": "React.js",
             "text": "<b>Open source</b> JavaScript library used for designing user interfaces",
+            "fork": 4,
+            "date": "15 MAY",
+            "stars": "156k",
             "author": {
                 "id": 1,
                 "name": "Бурова Ольга",

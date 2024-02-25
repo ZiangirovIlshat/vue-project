@@ -7,11 +7,11 @@
         <template #content>
             <div class="users-stories">
                 <ul class="users-stories__list">
-                    <li v-for="item in usersStoriesData" :key="item.id">
+                    <li v-for="story in usersStoriesData" :key="story.id">
                         <userStory
-                            :userName="item.name" 
-                            :avatarUrl="item.avatarUrl"
-                            @onPress="handlePress(item.id)">
+                            :userName="story.name" 
+                            :avatarUrl="story.avatarUrl"
+                            @onPress="handlePress(story.id)">
                         </userStory>
                     </li>
                 </ul>
@@ -21,8 +21,21 @@
     <main class="main">
         <div class="posts">
             <div class="posts__container">
-                <div class="posts__post-wrapper">
-                    <post></post>
+                <div class="posts__post-wrapper" v-for="post in usersPostsData" :key="post.id">
+                    <post :postData="post">
+                        <template #content>
+                            <div class="posts__content-wrapper">
+                                <h2>{{post.name}}</h2>
+                                <div class="posts__text" v-html="post.text"></div>
+                                <div class="posts__details">
+                                    <postDetails 
+                                        :stars="post.stars"
+                                        :fork="post.fork">
+                                    </postDetails>
+                                </div>
+                            </div>
+                        </template>
+                    </post>
                 </div>
             </div>
         </div>
@@ -39,6 +52,7 @@
     import mainMenu from "../components/mainMenu";
     import userStory from "../components/userStory";
     import post from "../components/post";
+    import postDetails from "../components/postDetails";
 
     export default defineComponent({
         name: "feeds",
@@ -48,11 +62,13 @@
             mainMenu,
             userStory,
             post,
+            postDetails,
         },
 
         data() {
             return {
                 usersStoriesData: [],
+                usersPostsData: [],
             }
         },
 
@@ -63,7 +79,7 @@
         methods: {
             getData() {
                 this.usersStoriesData = data.stories
-                // this.usersPostsData = data.posts
+                this.usersPostsData = data.posts
             },
 
             handlePress(id) {
@@ -85,7 +101,6 @@
 
         &__list {
             display: flex;
-            align-items: start;
             gap: 22px;
             overflow-x: auto;
             transform: translateZ(0);
@@ -104,6 +119,30 @@
         &__post-wrapper {
             margin: 0 0 20px 0;
         }
-    }
+
+        &__content-wrapper {
+            padding: 24px 20px;
+            border: 1px solid #f1f1f1;
+            border-radius: 10px;
+            box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.04);
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 25px;
+        }
+
+        &__text {
+            margin: 15px 0 0 0;
+
+            b {
+                font-weight: 700;
+            }
+        }
+
+        &__details {
+            margin: 30px 0 0 0;
+        }
+    } 
 
 </style>

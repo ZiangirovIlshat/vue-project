@@ -3,11 +3,11 @@
         <div class="user-story__body">
             <div class="user-story__avatar">
                 <div class="user-story__avatar-body">
-                    <img :src="avatarUrl">
+                    <img :src="avatarUrl" :alt="userName">
                 </div>
             </div>
             <div class="user-story__name">
-                {{userName}}
+                {{ userName }}
             </div>
         </div>
     </div>
@@ -22,7 +22,6 @@
         name: "userStory",
         props: {
             avatarUrl: {
-                required: false,
                 type: String,
                 default: standartUserAvatar,
             },
@@ -89,6 +88,7 @@
     }
 
     &__name {
+        font-size: 12px;
         width: 100%;
         margin: 10px 0 0 0;
         text-align: center;

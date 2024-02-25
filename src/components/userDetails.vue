@@ -39,18 +39,32 @@
     &__avatar {
         width: 45px;
         height: 45px;
+        min-width: 45px;
+        min-height: 45px;
         overflow: hidden;
         border-radius: 50%;
+
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        @media (max-width: 576px) {
+            width: 35px;
+            height: 35px;
+            min-width: 35px;
+            min-height: 35px;
         }
     }
 
     &__name {
         font-size: 18px;
         font-weight: 600;
+
+        @media (max-width: 576px) {
+            font-size: 16px;
+        }
     }
 }
 

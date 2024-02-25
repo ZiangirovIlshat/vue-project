@@ -57,9 +57,9 @@
         align-items: center;
         overflow: hidden;
 
-        @media (max-width: 768px) {
-            height: 80px;
-            width: 80px;
+        @media (max-width: 576px) {
+            height: 70px;
+            width: 70px;
         }
     }
 
@@ -81,9 +81,9 @@
             object-fit: cover;
         }
 
-        @media (max-width: 768px) {
-            height: 70px;
-            width: 70px;
+        @media (max-width: 576px) {
+            height: 60px;
+            width: 60px;
         }
     }
 

@@ -91,6 +91,7 @@
 
 <style lang="scss" scoped>
     .users-stories {
+        padding: 0;
         overflow-x: scroll;
         &::-webkit-scrollbar { 
             width: 0; 
@@ -104,6 +105,10 @@
             gap: 22px;
             overflow-x: auto;
             transform: translateZ(0);
+
+            @media (max-width: 576px) {
+                gap: 5px;
+            }
         }
     }
 
@@ -130,6 +135,10 @@
         h2 {
             font-weight: 700;
             font-size: 25px;
+
+            @media (max-width: 576px) {
+                font-size: 20px;
+            }
         }
 
         &__text {

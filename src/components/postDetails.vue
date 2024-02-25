@@ -43,7 +43,7 @@
     ul {
         display: inline-flex;
         align-items: center;
-        border: 1px solid #9e9e9e;
+        border: 1px solid #dddddb;
         border-radius: 6px;
         overflow: hidden;
     }
@@ -52,7 +52,11 @@
         display: flex;
         align-items: center;
         padding: 5px 10px;
-        border-right: 1px solid #9e9e9e;
+        border-right: 1px solid #dddddb;
+
+        @media (max-width: 576px) {
+            font-size: 10px;
+        }
 
         &:nth-child(2n+1) {
             background: #FAFBFC;
@@ -67,6 +71,11 @@
         height: 16px;
         width: 16px;
         margin: 0 4px 0 0;
+
+        @media (max-width: 576px) {
+            height: 10px;
+            width: 10px;
+        }
     }
 }
 

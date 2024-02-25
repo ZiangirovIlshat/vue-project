@@ -74,10 +74,6 @@
         margin: 0 0 15px 0;
     }
 
-    &__content {
-
-    }
-
     &__comments {
         margin: 10px 0 0 0;
 

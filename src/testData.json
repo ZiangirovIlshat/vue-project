@@ -56,12 +56,12 @@
                     "text": "Enable performance measuring in production, at the user's request"
                 },
                 {
-                    "id": 1,
+                    "id": 2,
                     "userName": "Соловьев Дмитрий",
                     "text": "It's Impossible to Rename an Inherited Slot"
                 },
                 {
-                    "id": 1,
+                    "id": 3,
                     "userName": "Соловьев Виктор",
                     "text": "transition-group with flex parent causes removed items to fly"
                 }
@@ -80,6 +80,25 @@
                 "avatarUrl": "https://jjji.ru/400x150"
             },
             "commets": []
+        },
+        {
+            "id": 3,
+            "name": "js",
+            "text": "<b>JavaScript</b>",
+            "fork": 2,
+            "date": "15 MAY",
+            "stars": "12k",
+            "author": {
+                "id": 6,
+                "name": "Соловьев Дмитрий"
+            },
+            "commets": [
+                {
+                    "id": 1,
+                    "userName": "Исаев Матвей",
+                    "text": "Вау!"
+                }
+            ]
         }
     ]
 }

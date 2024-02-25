@@ -25,8 +25,8 @@
         }
 
         @media (max-width: 768px) {
-            width: 150px;
-            height: 35px;
+            width: 100px;
+            height: 23px;
         }
     }
 </style>

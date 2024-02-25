@@ -17,10 +17,16 @@
         width: 174px;
         height: 40px;
         overflow: hidden;
+
         img {
             width: 100%;
             height: auto;
             object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            width: 150px;
+            height: 35px;
         }
     }
 </style>

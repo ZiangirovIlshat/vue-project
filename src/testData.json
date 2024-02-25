@@ -1,32 +1,79 @@
-[
-    {
-        "id": 0,
-        "name": "Рыжова Варвара",
-        "avatarUrl": "https://jjji.ru/500x500"
-    },
-    {
-        "id": 1,
-        "name": "Бурова Ольга",
-        "avatarUrl": "https://jjji.ru/400x150"
-    },
-    {
-        "id": 2,
-        "name": "Зотова Вероника",
-        "avatarUrl": "https://jjji.ru/200x150"
-    },
-    {
-        "id": 3,
-        "name": "Исаев Матвей",
-        "avatarUrl": "https://jjji.ru/500x333"
-    },
-    {
-        "id": 4,
-        "name": "Лебедев Борис",
-        "avatarUrl": "https://jjji.ru/300x300"
-    },
-    {
-        "id": 5,
-        "name": "Соловьев Виктор",
-        "avatarUrl": "https://jjji.ru/150x100"
-    }
-]
+{
+    "stories": [
+        {
+            "id": 0,
+            "name": "Рыжова Варвара",
+            "avatarUrl": "https://jjji.ru/500x500"
+        },
+        {
+            "id": 1,
+            "name": "Бурова Ольга",
+            "avatarUrl": "https://jjji.ru/400x150"
+        },
+        {
+            "id": 2,
+            "name": "Зотова Вероника",
+            "avatarUrl": "https://jjji.ru/200x150"
+        },
+        {
+            "id": 3,
+            "name": "Исаев Матвей",
+            "avatarUrl": "https://jjji.ru/500x333"
+        },
+        {
+            "id": 4,
+            "name": "Колобкова-Крупчатникова Светлана",
+            "avatarUrl": "https://jjji.ru/300x300"
+        },
+        {
+            "id": 5,
+            "name": "Соловьев Виктор",
+            "avatarUrl": "https://jjji.ru/150x100"
+        },
+        {
+            "id": 6,
+            "name": "Соловьев Дмитрий"
+        }
+    ],
+
+    "posts": [
+        {
+            "id": 1,
+            "name": "Vue.js",
+            "text": "<b>JavaScript</b> framework for building interactive web applications ⚡",
+            "author": {
+                "id": 4,
+                "name": "Колобкова-Крупчатникова Светлана",
+                "avatarUrl": "https://jjji.ru/300x300"
+            },
+            "commets": [
+                {
+                    "id": 1,
+                    "userName": "Исаев Матвей",
+                    "text": "Enable performance measuring in production, at the user's request"
+                },
+                {
+                    "id": 1,
+                    "userName": "Соловьев Дмитрий",
+                    "text": "It's Impossible to Rename an Inherited Slot"
+                },
+                {
+                    "id": 1,
+                    "userName": "Соловьев Виктор",
+                    "text": "transition-group with flex parent causes removed items to fly"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "React.js",
+            "text": "<b>Open source</b> JavaScript library used for designing user interfaces",
+            "author": {
+                "id": 1,
+                "name": "Бурова Ольга",
+                "avatarUrl": "https://jjji.ru/400x150"
+            },
+            "commets": []
+        }
+    ]
+}

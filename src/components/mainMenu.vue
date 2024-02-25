@@ -11,7 +11,7 @@
             <li>
                 <router-link to="/">
                     <div class="menu__img-container">
-                        <img :src="avatarUrl" alt="Фото">
+                        <img :src="avatarUrl" alt="">
                     </div>
                 </router-link>
             </li>
@@ -29,10 +29,15 @@
 <script>
     import { defineComponent } from "vue"
 
+    import standartUserAvatar from '../assets/standartAvatar.png'
+
     export default defineComponent({
         name: "mainMenu",
         props: {
-            avatarUrl: String,
+            avatarUrl: {
+                type: String,
+                default: standartUserAvatar
+            },
         }
     })
 </script>

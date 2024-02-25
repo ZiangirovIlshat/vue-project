@@ -1,5 +1,5 @@
 <template>
-    <div class="user-story">
+    <div class="user-story" @click="$emit('onPress')">
         <div class="user-story__body">
             <div class="user-story__avatar">
                 <div class="user-story__avatar-body">
@@ -16,19 +16,30 @@
 <script>
     import { defineComponent } from "vue"
 
+    import standartUserAvatar from '../assets/standartAvatar.png'
+
     export default defineComponent({
         name: "userStory",
         props: {
-            userName: String,
-            avatarUrl: String,
+            avatarUrl: {
+                required: false,
+                type: String,
+                default: standartUserAvatar,
+            },
+            userName: {
+                required: true,
+                type: String,
+                validator: function(value){
+                    return value.length > 3 && value.length < 50;
+                },
+            },
         }
     })
 </script>
 
 <style lang="scss" scoped>
 .user-story {
-    max-width: 100px;
-    min-width: 100px;
+    width: 100px;
 
     &__body {
         display: flex;
@@ -38,20 +49,25 @@
 
     &__avatar {
         cursor: pointer;
-        max-height: 92px;
-        max-width: 92px;
-        min-height: 92px;
-        min-width: 92px;
+        height: 92px;
+        width: 92px;
         border: 3px solid #a6328d;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
+
+        @media (max-width: 768px) {
+            height: 80px;
+            width: 80px;
+        }
     }
 
-    &__avatar:hover {
-        border: 3px solid #fff;
+    @media(hover: hover) and (pointer: fine) {
+        &__avatar:hover {
+            border: 3px solid #fff;
+        }
     }
 
     &__avatar-body {
@@ -59,18 +75,25 @@
         width: 80px;
         border-radius: 50%;
         overflow: hidden;
+
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
+        @media (max-width: 768px) {
+            height: 70px;
+            width: 70px;
+        }
     }
 
     &__name {
+        width: 100%;
         margin: 10px 0 0 0;
         text-align: center;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: normal;
         overflow: hidden;
     }
 }

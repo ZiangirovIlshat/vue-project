@@ -24,6 +24,10 @@
     background-color: #fafafa;
     padding: 43px 0;
 
+    @media (max-width: 768px) {
+        padding: 20px 0;
+    }
+
     &__container {
         max-width: 1220px;
         padding: 0 10px;

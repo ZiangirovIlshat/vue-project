@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import feeds from '../pages/feeds'
+
+
 const routes = [
   {
     path: '/',
+    alias: '/home',
+    component: feeds,
   },
 ]
 

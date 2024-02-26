@@ -40,7 +40,7 @@
         {
             "id": 1,
             "name": "Vue.js",
-            "text": "<b>JavaScript</b> framework for building interactive web applications ⚡",
+            "text": "<b>JavaScript</b> framework for building <i>interactive</i> web applications ⚡",
             "fork": 4,
             "date": "15 MAY",
             "stars": "156k",
@@ -70,7 +70,7 @@
         {
             "id": 2,
             "name": "React.js",
-            "text": "<b>Open source</b> JavaScript library used for designing user interfaces",
+            "text": "<b>Open source</b> JavaScript library used <mark>for</mark> designing user interfaces",
             "fork": 4,
             "date": "15 MAY",
             "stars": "156k",

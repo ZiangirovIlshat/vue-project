@@ -144,14 +144,11 @@
         &__text {
             margin: 15px 0 0 0;
 
-            b {
-                font-weight: 700;
-            }
         }
 
         &__details {
             margin: 30px 0 0 0;
         }
-    } 
+    }
 
 </style>

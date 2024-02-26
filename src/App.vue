@@ -8,7 +8,7 @@
   import { defineComponent } from "vue";
 
   export default defineComponent({
-    
+
   })
 </script>
 
@@ -20,5 +20,18 @@
     font-weight: 400;
     font-style: normal;
     font-variation-settings: "slnt" 0;
+
+    b, strong {
+      font-weight: 700;
+    }
+
+    i, em {
+      font-style: italic;
+    }
+
+    mark {
+      background-color: yellow;
+    }
+
   }
 </style>

@@ -2,8 +2,8 @@
     <div class="post">
         <div class="post__header">
             <userDetails 
-                :userName="postData.author.name" 
-                :avatarUrl="postData.author.avatarUrl">
+                :userName="postData.owner.login" 
+                :avatarUrl="postData.owner.avatar_url">
             </userDetails>
         </div>
 
@@ -11,17 +11,17 @@
             <slot name="content"></slot>
         </div>
 
-        <div class="toggler" v-if="postData.commets.length > 0">
+        <!-- <div class="toggler" v-if="postData.commets.length > 0">
             <toggler @onToggle="toggle"></toggler>
-        </div>
+        </div> -->
 
-        <div class="post__comments">
+        <!-- <div class="post__comments">
             <ul v-if="shown">
                 <li v-for="comment in postData.commets" :key="comment.id">
                     <b>{{ comment.userName }}</b> {{ comment.text }}
                 </li>
             </ul>
-        </div>
+        </div>-->
 
         <p class="post__date">{{ postData.date }}</p>
     </div>

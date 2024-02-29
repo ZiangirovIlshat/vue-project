@@ -26,8 +26,8 @@
         name: "ostDetails",
         props: {
             stars: {
-                type: String,
-                default: '0',
+                required: true,
+                type: Number,
             },
             fork: {
                 required: true,

@@ -1,6 +1,8 @@
 <template>
     <div class="logo-wrapper">
-        <img src="../assets/Logo.svg" alt="logo">
+        <router-link to="/">
+            <img src="../assets/Logo.svg" alt="logo">
+        </router-link>
     </div>
 </template>
 

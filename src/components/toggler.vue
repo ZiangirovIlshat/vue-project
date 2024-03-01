@@ -1,6 +1,6 @@
 <template>
     <button :class="['toggler', { __active: isOpened }]" @click="toggle()">
-        <span>{{ this.isOpened ? "Hide issues" : "View problems" }}</span>
+        <span>{{ this.isOpened ? "Hide issues" : "View issues" }}</span>
         <span class="toggler__arrow">
             <svg class="toggler__icon" viewBox="0 0 24 24" width="24" height="24">
                 <use href="../assets/sprite.svg#arrow" x="0" y="0"></use>
@@ -24,7 +24,7 @@
         methods: {
             toggle() {
                 this.isOpened = !this.isOpened
-                this.$emit('onToggle', this.isOpened)
+                this.$emit("onToggle", this.isOpened)
             }
         }
     })

@@ -11,19 +11,19 @@
             <slot name="content"></slot>
         </div>
 
-        <!-- <div class="toggler" v-if="postData.commets.length > 0">
+        <div class="toggler" v-if="postData.open_issues_count > 0">
             <toggler @onToggle="toggle"></toggler>
-        </div> -->
+        </div>
 
-        <!-- <div class="post__comments">
+        <div class="post__comments">
             <ul v-if="shown">
-                <li v-for="comment in postData.commets" :key="comment.id">
-                    <b>{{ comment.userName }}</b> {{ comment.text }}
+                <li v-for="issue in issues" :key="issue.id">
+                    <b>{{ issue.user.login }}</b> {{ issue.title }}
                 </li>
             </ul>
-        </div>-->
+        </div>
 
-        <p class="post__date">{{ postData.date }}</p>
+        <p class="post__date">{{ getFormattedDate(postData.created_at) }}</p>
     </div>
 </template>
 
@@ -56,10 +56,34 @@
         },
 
         created() {
-            
+            this.getIssues()
         },
         
         methods: {
+            getIssues() {
+                fetch("https://api.github.com/repos/${this.postData.owner.login}/${this.postData.name}/issues", {
+                    headers: {
+                        Authorization: "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",
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.issues = data
+                })
+                .catch(()=> {
+                    this.errMessage = "Couldn't get questions"
+                })
+            },
+
+            getFormattedDate(str) {
+                const date = new Date(str);
+
+                const options = { day: "numeric", month: "short" };
+                const formattedDate = date.toLocaleString("en-US", options);
+
+                return formattedDate.toLocaleUpperCase();
+            },
+
             toggle(isOpened) {
                 this.shown = isOpened
             }

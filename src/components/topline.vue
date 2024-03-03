@@ -22,7 +22,7 @@
 <style lang="scss" scoped>
 .header {
     background-color: #fafafa;
-    padding: 43px 0;
+    padding: 33px 0;
 
     @media (max-width: 576px) {
         padding: 30px 0  8px 0;

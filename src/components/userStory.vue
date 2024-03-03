@@ -39,6 +39,7 @@
 <style lang="scss" scoped>
 .user-story {
     width: 100px;
+    padding-bottom: 10px;
 
     &__body {
         display: flex;

@@ -15,8 +15,8 @@
             <toggler @onToggle="toggle"></toggler>
         </div>
 
-        <div class="post__comments">
-            <ul v-if="shown">
+        <div class="post__comments" v-if="issuesIsLoaded && shown">
+            <ul>
                 <li v-for="issue in issues" :key="issue.id">
                     <b>{{ issue.user.login }}</b> {{ issue.title }}
                 </li>
@@ -29,6 +29,8 @@
 
 <script>
     import { defineComponent } from "vue"
+
+    import { fetchData } from "../api.js";
 
     import userDetails from "../components/userDetails";
     import toggler from "../components/toggler";
@@ -49,29 +51,22 @@
 
         data() {
             return {
-                usersStoriesData: [],
-                usersPostsData: [],
+                issues: [],
+                issuesIsLoaded : false,
                 shown: false,
             }
         },
-
-        created() {
-            this.getIssues()
-        },
         
         methods: {
+            
             getIssues() {
-                fetch("https://api.github.com/repos/${this.postData.owner.login}/${this.postData.name}/issues", {
-                    headers: {
-                        Authorization: "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",
-                    },
-                })
-                .then(response => response.json())
+                this.issues = []
+                this.issuesIsLoaded = false
+
+                fetchData(`/repos/${this.postData.owner.login}/${this.postData.name}/issues`)
                 .then(data => {
                     this.issues = data
-                })
-                .catch(()=> {
-                    this.errMessage = "Couldn't get questions"
+                    this.issuesIsLoaded = true
                 })
             },
 
@@ -85,6 +80,8 @@
             },
 
             toggle(isOpened) {
+                this.issues = []
+                this.getIssues()
                 this.shown = isOpened
             }
         }
@@ -96,6 +93,27 @@
 
     &__header {
         margin: 0 0 15px 0;
+    }
+
+    &__placeholders {
+        height: 17px;
+        width: 80%;
+        border-radius: 5px;
+        background: linear-gradient(90deg, rgba(234,234,234,1) 0%, rgba(255,255,255,1) 100%);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 
     &__comments {

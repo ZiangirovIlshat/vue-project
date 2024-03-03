@@ -47,12 +47,16 @@
 <script>
     import { defineComponent } from "vue"
 
+    import { fetchData } from "../api.js";
+
     import topline from "../components/topline";
     import logo from "../components/logo";
     import mainMenu from "../components/mainMenu";
     import userStory from "../components/userStory";
     import post from "../components/post";
     import postDetails from "../components/postDetails";
+
+    import sliderItem from "../components/sliderItem";
 
     export default defineComponent({
         name: "feeds",
@@ -63,6 +67,8 @@
             userStory,
             post,
             postDetails,
+
+            sliderItem,
         },
 
         data() {
@@ -80,28 +86,15 @@
             getData() {
                 this.errMessage = ''
 
-                fetch(this.getUrl(), {
-                    headers: {
-                        Authorization: "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",
-                    },
+                fetchData("/search/repositories", { 
+                    order: "desc",
+                    sort: "start",
+                    q: "language:javascript created:>" + this.getOneWeekAgoDate(),
+                    per_page: 10,
                 })
-                .then(response => response.json())
                 .then(data => {
                     this.postsData = data.items
                 })
-                .catch(()=> {
-                    this.errMessage = "Something went wrong. Data could not be retrieved :("
-                })
-            },
-
-            getUrl() {
-                let url = new URL("https://api.github.com/search/repositories");
-                url.searchParams.set("order", "desc")
-                url.searchParams.set("sort", "start")
-                url.searchParams.set("q", "language:javascript created:>" + this.getOneWeekAgoDate())
-                url.searchParams.set("per_page", "10")
-
-                return url.href
             },
             
             getOneWeekAgoDate() {
@@ -128,20 +121,30 @@
 
 <style lang="scss" scoped>
     .users-stories {
-        padding: 0;
         overflow-x: scroll;
         &::-webkit-scrollbar { 
-            width: 0; 
+            width: 0;
         }
         -ms-overflow-style: none;
         overflow: -moz-scrollbars-none;
-
 
         &__list {
             display: flex;
             gap: 22px;
             overflow-x: auto;
             transform: translateZ(0);
+
+            &::-webkit-scrollbar {
+                width: 5px;
+                height: 5px;
+            }
+            &::-webkit-scrollbar-track {
+                background: #fff;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: #AFAFAF;
+                border-radius: 20px;
+            }
 
             @media (max-width: 576px) {
                 gap: 5px;

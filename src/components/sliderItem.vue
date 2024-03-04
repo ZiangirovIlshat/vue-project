@@ -14,34 +14,21 @@
         <div class="slider-item__body">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
             <br>
+
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
-            <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
-            <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit saepe harum voluptates impedit quidem magni in minus nulla, quo suscipit reiciendis perferendis ipsa corrupti dolor possimus voluptatum nostrum, obcaecati soluta.</p>
-            <br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste tenetur eligendi eum, possimus autem praesentium delectus amet sequi, atque voluptatem repellendus magnam ducimus recusandae labore eveniet, dolorem ullam voluptatibus excepturi.</p>
         </div>
         <footer class="slider-item__footer">
-            <xButton :hoverText="'unfollow'"></xButton>
+            <xButton></xButton>
         </footer>
     </div>
 </template>
@@ -72,6 +59,9 @@
 
 <style lang="scss" scoped>
     .slider-item {
+        display: flex;
+        flex-direction: column;
+        height: 667px;
 
         &__header {
             padding: 8px 8px 13px 8px;
@@ -82,8 +72,8 @@
         }
 
         &__body {
+            flex: 1;
             padding: 18px;
-            max-height: 500px;
             overflow-y: scroll;
 
             &::-webkit-scrollbar {

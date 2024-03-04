@@ -32,7 +32,8 @@
                     return value.length > 3 && value.length < 50;
                 },
             },
-        }
+        },
+        emits: ['onPress'],
     })
 </script>
 

@@ -1,8 +1,6 @@
 <template>
     <button class="x-button"
-        @mouseover.self="hovered = true"
-        @mouseleave.self="hovered = false"
-        @click="handleClick">
+        @click="this.$emit('handleClick')">
         <span class="x-button__btn-text">
             <slot>follow</slot>
         </span>
@@ -14,17 +12,7 @@
 
     export default defineComponent({
         name: "xButton",
-        props: {
-            hoverText: {
-                type: String,
-            }
-        },
-
-        data() {
-            return {
-                hovered: false,
-            }
-        }
+        emits: ['handleClick'],
     })
 </script>
 

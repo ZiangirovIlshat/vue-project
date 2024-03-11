@@ -15,14 +15,21 @@
             <toggler @onToggle="toggle"></toggler>
         </div>
 
-        <div class="post__comments" v-if="issuesIsLoaded && shown">
-            <ul>
-                <li v-for="issue in issues" :key="issue.id">
-                    <b>{{ issue.user.login }}</b> {{ issue.title }}
-                </li>
-            </ul>
-        </div>
+        <div class="post__comments" v-if="shown">
+            <div class="post__preloader" v-if="issues.loading">
+                Загрузка...
+            </div>
 
+            <div class="post__err-message" v-html="issues.error" v-else-if="issues.error"></div>
+
+            <template v-else-if="issues.data">
+                <ul>
+                    <li v-for="issue in getIssues(postData.name)" :key="issue.id">
+                        <b>{{ issue.user.login }}</b> {{ issue.title }}
+                    </li>
+                </ul>
+            </template>
+        </div>
         <p class="post__date">{{ getFormattedDate(postData.created_at) }}</p>
     </div>
 </template>
@@ -30,7 +37,7 @@
 <script>
     import { defineComponent } from "vue"
 
-    import { fetchData } from "../api.js";
+    import { mapState, mapActions, mapGetters } from "vuex";
 
     import userDetails from "../components/userDetails";
     import toggler from "../components/toggler";
@@ -51,23 +58,25 @@
 
         data() {
             return {
-                issues: [],
-                issuesIsLoaded : false,
+                postIssues: [],
                 shown: false,
             }
         },
-        
-        methods: {
-            
-            getIssues() {
-                this.issues = []
-                this.issuesIsLoaded = false
 
-                fetchData(`/repos/${this.postData.owner.login}/${this.postData.name}/issues`)
-                .then(data => {
-                    this.issues = data
-                    this.issuesIsLoaded = true
-                })
+        computed: {
+            ...mapState({
+                issues: state => state.issues
+            }),
+            ...mapGetters({
+                getIssues: 'issues/getIssues'
+            }),
+        },
+        methods: {
+            ...mapActions({
+                fetchIssues: 'issues/fetchIssues'
+            }),
+            getData() {
+                this.fetchIssues([this.postData.owner.login, this.postData.name])
             },
 
             getFormattedDate(str) {
@@ -80,9 +89,8 @@
             },
 
             toggle(isOpened) {
-                this.issues = []
-                this.getIssues()
                 this.shown = isOpened
+                this.getData()
             }
         }
     })

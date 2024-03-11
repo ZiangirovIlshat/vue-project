@@ -25,15 +25,7 @@
             size: {
                 default: '28',
             }
-        },
-        computed: {
-            cssVars() {
-                return {
-                    '--color' : this.color,
-                    '--size' : this.size,
-                }
-            }
-        },
+        }
     })
 </script>
 

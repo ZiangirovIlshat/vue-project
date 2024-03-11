@@ -17,7 +17,6 @@ async function fetchData(route, params) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Error fetching data:", error);
         return null;
     }
 }

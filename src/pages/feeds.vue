@@ -5,9 +5,9 @@
             <mainMenu />
         </template>
         <template #content>
-            <div class="users-stories" v-if="errMessage === ''">
+            <div class="users-stories" v-if="posts.data">
                 <ul class="users-stories__list">
-                    <li v-for="postData in postsData" :key="postData.id">
+                    <li v-for="postData in posts.data.items" :key="postData.id">
                         <userStory
                             :userName="postData.owner.login"
                             :avatarUrl="postData.owner.avatar_url"
@@ -21,24 +21,31 @@
     <main class="main">
         <div class="posts">
             <div class="posts__container">
-                <div class="posts__err-message" v-if="errMessage !== ''">{{ errMessage }}</div>
-
-                <div class="posts__post-wrapper" v-for="postData in postsData" :key="postData.id" v-else>
-                    <post :postData="postData">
-                        <template #content>
-                            <div class="posts__content-wrapper">
-                                <h2>{{postData.name}}</h2>
-                                <div class="posts__text" v-html="postData.description"></div>
-                                <div class="posts__details">
-                                    <postDetails 
-                                        :stars="postData.stargazers_count"
-                                        :fork="postData.forks_count">
-                                    </postDetails>
-                                </div>
-                            </div>
-                        </template>
-                    </post>
+                <div class="posts__loader" v-if="posts.loading">
+                    <loader />
                 </div>
+
+                <div class="posts__err-message" v-html="posts.error" v-else-if="posts.error">
+                </div>
+
+                <template v-else-if="posts.data">
+                    <div  class="posts__post-wrapper" v-for="postData in posts.data.items" :key="postData.id">
+                        <post :postData="postData">
+                            <template #content>
+                                <div class="posts__content-wrapper">
+                                    <h2>{{postData.name}}</h2>
+                                    <div class="posts__text" v-html="postData.description"></div>
+                                    <div class="posts__details">
+                                        <postDetails 
+                                            :stars="postData.stargazers_count"
+                                            :fork="postData.forks_count">
+                                        </postDetails>
+                                    </div>
+                                </div>
+                            </template>
+                        </post>
+                    </div>
+                </template>
             </div>
         </div>
     </main>
@@ -47,16 +54,15 @@
 <script>
     import { defineComponent } from "vue"
 
-    import { fetchData } from "../api.js";
+    import { mapState, mapActions, mapGetters } from "vuex";
 
-    import topline from "../components/topline";
-    import logo from "../components/logo";
-    import mainMenu from "../components/mainMenu";
-    import userStory from "../components/userStory";
-    import post from "../components/post";
-    import postDetails from "../components/postDetails";
-
-    import sliderItem from "../components/sliderItem";
+    import topline from "../components/topline"
+    import logo from "../components/logo"
+    import mainMenu from "../components/mainMenu"
+    import userStory from "../components/userStory"
+    import post from "../components/post"
+    import postDetails from "../components/postDetails"
+    import loader from "../components/loader"
 
     export default defineComponent({
         name: "feeds",
@@ -67,55 +73,41 @@
             userStory,
             post,
             postDetails,
-
-            sliderItem,
+            loader,
         },
 
         data() {
             return {
-                postsData: [],
-                errMessage: '',
+                
+            }
+        },
+
+        computed: {
+            ...mapState({
+                posts: state => state.posts
+            }),
+            ...mapGetters({
+                getPosts: 'posts/getPosts'
+            }),
+        },
+        methods: {
+            ...mapActions({
+                fetchPosts: 'posts/fetchPosts'
+            }),
+
+            getData() {
+                this.fetchPosts();
+            },
+
+            //TODO:
+            handlePress(id) {
+                console.log(id)
             }
         },
 
         created() {
             this.getData()
         },
-
-        methods: {
-            getData() {
-                this.errMessage = ''
-
-                fetchData("/search/repositories", { 
-                    order: "desc",
-                    sort: "start",
-                    q: "language:javascript created:>" + this.getOneWeekAgoDate(),
-                    per_page: 10,
-                })
-                .then(data => {
-                    this.postsData = data.items
-                })
-            },
-            
-            getOneWeekAgoDate() {
-                const currentDate = new Date();
-                const oneWeekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000)
-
-                const year = oneWeekAgo.getFullYear()
-                const month = String(oneWeekAgo.getMonth() + 1).padStart(2, "0")
-                const day = String(oneWeekAgo.getDate()).padStart(2, "0")
-
-                const formattedDate = `${year}-${month}-${day}`
-
-                return formattedDate
-            },
-
-
-            //TODO:
-            handlePress(id) {
-                console.log(id)
-            }
-        }
     })
 </script>
 
@@ -161,13 +153,18 @@
             margin: 0 auto;
         }
 
-        &__post-wrapper {
-            margin: 0 0 20px 0;
+        &__loader {
+            margin: 40px 0 0 0;
+            text-align: center;
         }
 
         &__err-message {
             font-size: 20px;
             text-align: center;
+        }
+
+        &__post-wrapper {
+            margin: 0 0 20px 0;
         }
 
         &__content-wrapper {

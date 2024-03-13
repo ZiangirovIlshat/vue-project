@@ -34,7 +34,7 @@ const issues = {
 
         commit('SET_ISSUES_DATA', {data, params: params[1]})
       } catch (error) {
-        commit("SET_ISSUES_ERROR", "<b>Не удалось получить вопросы к этому посту")
+        commit("SET_ISSUES_ERROR", "Не удалось получить вопросы к этому посту")
       } finally {
         commit("SET_ISSUES_LOADING", { loading: false, postName: params[1] })
       }

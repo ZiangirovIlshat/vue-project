@@ -32,7 +32,13 @@
                             class="slider__slide-wrapper"
                             :class="{ '__active' : activeSlide === index }"
                         >
-                            <sliderItem :postData="postData" :active="activeSlide === index"></sliderItem>
+                            {{ getActiveSlideData(index) }}
+                            <sliderItem 
+                                :postData="postData"
+                                :postsReadme="readme"
+                                :active="activeSlide === index"
+                            >
+                            </sliderItem>
                         </div>
                     </li>
                 </ul>
@@ -69,30 +75,34 @@
         },
 
         props: {
-            activeSlide: {
-                type: Number,
-                default: 0,
-                required: false,
-            },
+            // activeSlide: {
+            //     type: Number,
+            //     default: 0,
+            //     required: false,
+            // },
         },
 
         data() {
             return {
                 activeSlide: 0,
+                activeSlideData: {},
             }
         },
 
         computed: {
             ...mapState({
-                posts: state => state.posts
+                posts: state => state.posts,
+                readme: state => state.readme,
             }),
             ...mapGetters({
-                getPosts: 'posts/getPosts'
+                getPosts: 'posts/getPosts',
+                getPostReadme: 'readme/getPostReadme',
             }),
         },
         methods: {
             ...mapActions({
-                fetchPosts: 'posts/fetchPosts'
+                fetchPosts: 'posts/fetchPosts',
+                fetchReadme: 'readme/fetchReadme',
             }),
 
             prevBtnClick() {
@@ -114,6 +124,12 @@
 
             moveSlider() {
                 this.$refs.sliderRow.style = `transform: translate(-${338*this.activeSlide}px);`
+            },
+
+            getActiveSlideData(index) {
+                if(index !== this.activeSlide) return
+                let activePosts = this.posts.data.items[this.activeSlide]
+                this.fetchReadme([activePosts.owner.login, activePosts.name])
             },
 
             close() {

@@ -12,13 +12,13 @@
             </div>
         </header>
         <div class="slider-item__body">
-            <div class="slider-item__prelouder-wrapper" v-if="active === false">
+            <div class="slider-item__prelouder-wrapper" v-if="active === false && !postsReadme.data[postData.name]">
                 <preloader :count="2" />
             </div>
             <template v-else>
                 <div class="slider-item__loader" v-if="postsReadme.loading[postData.name]"><loader/></div>
-                <div class="slider-item__content" v-else-if="postsReadme.error[postData.name]" v-html="postsReadme.error"></div>
-                <div class="slider-item__content" v-else-if="postsReadme.data" v-html="getPostsReadme(postData.name)"></div>
+                <div class="slider-item__content" v-else-if="postsReadme.error" v-html="postsReadme.error"></div>
+                <div class="slider-item__content" v-else-if="postsReadme.data[postData.name]" v-html="postsReadme.data[postData.name]"></div>
             </template>
         </div>
         <footer class="slider-item__footer">
@@ -29,8 +29,6 @@
 
 <script>
     import { defineComponent } from "vue"
-
-    import { mapState, mapActions, mapGetters } from "vuex";
 
     import progressbar from "../components/progressBar"
     import userDetails from "../components/userDetails"
@@ -51,32 +49,11 @@
 
         props: {
             active: Boolean,
+            postsReadme: Object,
             postData: {
                 type: Object,
                 required: true,
             }
-        },
-
-        watch: {
-            active: {
-                heandler(newVal, oldVal) {
-                    if(this.active === true) this.fetchReadme([this.postData.owner.login, this.postData.name])
-                }
-            }
-        },
-
-        computed: {
-            ...mapState({
-                postsReadme: state => state.readme
-            }),
-            ...mapGetters({
-                getPostsReadme: "readme/getPostsReadme"
-            }),
-        },
-        methods: {
-            ...mapActions({
-                fetchReadme: "readme/fetchReadme"
-            }),
         },
     })
 </script>
@@ -102,19 +79,23 @@
 
             &::-webkit-scrollbar {
                 width: 5px;
+                height: 5px;
             }
             &::-webkit-scrollbar-track {
                 background: #fff;
             }
             &::-webkit-scrollbar-thumb {
                 background-color: #AFAFAF;
-                border-radius: 20px;
+                border-radius: 2px;
             }
         }
 
-        &__louder-wrapper {
-
+        &__loader {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0 0 0;
         }
+
         &__prelouder-wrapper {
             ul {
                 margin: 0 0 30px 0;
@@ -125,9 +106,6 @@
                     width: 60%;
                 }
             }
-        }
-        &__content {
-
         }
 
         &__footer {

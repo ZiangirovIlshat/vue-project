@@ -1,5 +1,5 @@
 <template>
-    <div class="progressbar" :class="{'__active' : active}">
+    <div class="progressbar" :class="{'__active' : isActive}">
         <div class="progressbar__indicator"></div>
     </div>
 </template>
@@ -10,16 +10,20 @@
     export default defineComponent({
         name: "progressbar",
 
+        props: {
+            active: Boolean,
+        },
+
         data() {
             return {
-                active: false
+                isActive: false,
             }
         },
 
         mounted() {
             this.$nextTick(() => {
                 setTimeout(() => {
-                    this.active = true;
+                    this.isActive = this.active;
                 }, 100);
             })
         },

@@ -16,8 +16,10 @@
         </div>
 
         <div class="post__comments" v-if="shown">
-            <div class="post__preloader" v-if="issues.loading">
-                Загрузка...
+            <div class="post__preloader" v-if="issues.loading[postData.name]">
+                <ul v-for="(preloader, index) in postData.open_issues_count" :key="index">
+                    <li :style="{  'width': index === 0 ? '80%' : (80 - (80 / postData.open_issues_count) * index) + '%' }"><preloader /></li>
+                </ul>
             </div>
 
             <div class="post__err-message" v-html="issues.error" v-else-if="issues.error"></div>
@@ -39,14 +41,16 @@
 
     import { mapState, mapActions, mapGetters } from "vuex";
 
-    import userDetails from "../components/userDetails";
-    import toggler from "../components/toggler";
+    import userDetails from "../components/userDetails"
+    import toggler from "../components/toggler"
+    import preloader from "../components/preloader"
 
     export default defineComponent({
         name: "post",
         components: {
             userDetails,
             toggler,
+            preloader,
         },
 
         props: {

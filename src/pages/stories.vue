@@ -8,7 +8,10 @@
                 </svg>
             </button>
         </header>
-        <div class="slider">
+
+        <div class="slider__loader" v-if="posts.loading"><loader /></div>
+
+        <div class="slider" v-else>
             <button 
                 class="slider__buttons prev"
                 @click="prevBtnClick()"
@@ -20,11 +23,12 @@
             </button>
             <div class="slider__row">
                 <ul class="slider__items" ref="sliderRow">
-                    <li v-for="(item, index) in 10" :key="index">
+                    <li v-for="(postData, index) in getPosts.items" :key="postData.id">
                         <div 
                             class="slider__slide-wrapper"
-                            :class="{'__active' : activeSlide === index}"
+                            :class="{ '__active' : activeSlide === index }"
                         >
+                            <!-- <sliderItem :postData="postData" :active="activeSlide === index"></sliderItem> -->
                         </div>
                     </li>
                 </ul>
@@ -32,6 +36,7 @@
             <button
                 class="slider__buttons next"
                 @click="nextBtnClick()"
+                v-if="activeSlide < (getPosts.items.length - 1)"
             >
                 <svg class="menu__icon" viewBox="0 0 24 24" width="24" height="24">
                     <use href="../assets/sprite.svg#next" x="0" y="0"></use>
@@ -44,8 +49,11 @@
 <script>
     import { defineComponent } from "vue"
 
+    import { mapState, mapActions, mapGetters } from "vuex";
+
     import logoLight from "../components/logoLight";
     import sliderItem from "../components/sliderItem.vue"
+    import loader from "../components/loader.vue"
 
     export default defineComponent({
         name: "stories",
@@ -53,6 +61,7 @@
         components: {
             logoLight,
             sliderItem,
+            loader,
         },
 
         data() {
@@ -61,10 +70,18 @@
             }
         },
 
+        computed: {
+            ...mapState({
+                posts: state => state.posts
+            }),
+            ...mapGetters({
+                getPosts: 'posts/getPosts'
+            }),
+        },
         methods: {
-            close() { //TODO:
-                console.log('close')
-            },
+            ...mapActions({
+                fetchPosts: 'posts/fetchPosts'
+            }),
 
             prevBtnClick() {
                 this.activeSlide--
@@ -78,7 +95,15 @@
 
             moveSlider() {
                 this.$refs.sliderRow.style = `transform: translate(-${338*this.activeSlide}px);`
-            }
+            },
+
+            close() {
+                this.$router.go(-1)
+            },
+        },
+
+        created() {
+            this.fetchPosts()
         }
     })
 </script>

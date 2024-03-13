@@ -13,6 +13,10 @@
     export default defineComponent({
         name: "xButton",
         emits: ['handleClick'],
+
+        props: {
+            hoverText: String
+        }
     })
 </script>
 

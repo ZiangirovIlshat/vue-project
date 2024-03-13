@@ -20,9 +20,11 @@
         name: "loader",
         props: {
             color: {
+                type: String,
                 default: '#31AE54',
             },
             size: {
+                type: String,
                 default: '28',
             }
         }

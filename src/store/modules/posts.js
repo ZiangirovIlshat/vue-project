@@ -7,7 +7,7 @@ const posts = {
   },
 
   getters: {
-    getPosts(state) {
+    getPosts: (state) => {
       return state.data
     }
   },

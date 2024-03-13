@@ -7,7 +7,7 @@
         <template #content>
             <div class="users-stories" v-if="posts.data">
                 <ul class="users-stories__list">
-                    <li v-for="postData in posts.data.items" :key="postData.id">
+                    <li v-for="postData in getPosts.items" :key="postData.id">
                         <userStory
                             :userName="postData.owner.login"
                             :avatarUrl="postData.owner.avatar_url"
@@ -21,15 +21,12 @@
     <main class="main">
         <div class="posts">
             <div class="posts__container">
-                <div class="posts__loader" v-if="posts.loading">
-                    <loader />
-                </div>
+                <div class="posts__loader" v-if="posts.loading"><loader /></div>
 
-                <div class="posts__err-message" v-html="posts.error" v-else-if="posts.error">
-                </div>
+                <div class="posts__err-message" v-html="posts.error" v-else-if="posts.error"></div>
 
                 <template v-else-if="posts.data">
-                    <div  class="posts__post-wrapper" v-for="postData in posts.data.items" :key="postData.id">
+                    <div  class="posts__post-wrapper" v-for="postData in getPosts.items" :key="postData.id">
                         <post :postData="postData">
                             <template #content>
                                 <div class="posts__content-wrapper">
@@ -78,7 +75,7 @@
 
         data() {
             return {
-                
+                postsData: null,
             }
         },
 
@@ -95,18 +92,17 @@
                 fetchPosts: 'posts/fetchPosts'
             }),
 
-            getData() {
-                this.fetchPosts();
-            },
-
             //TODO:
             handlePress(id) {
-                console.log(id)
+                this.$router.push({
+                    name: 'stories',
+                    props: { 'postsData' : this.getPosts.items }
+                })
             }
         },
 
         created() {
-            this.getData()
+            this.fetchPosts()
         },
     })
 </script>

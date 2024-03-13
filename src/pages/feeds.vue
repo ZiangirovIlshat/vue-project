@@ -7,7 +7,7 @@
         <template #content>
             <div class="users-stories" v-if="posts.data">
                 <ul class="users-stories__list">
-                    <li v-for="postData in getPosts.items" :key="postData.id">
+                    <li v-for="postData in posts.data.items" :key="postData.id">
                         <userStory
                             :userName="postData.owner.login"
                             :avatarUrl="postData.owner.avatar_url"
@@ -26,7 +26,7 @@
                 <div class="posts__err-message" v-html="posts.error" v-else-if="posts.error"></div>
 
                 <template v-else-if="posts.data">
-                    <div  class="posts__post-wrapper" v-for="postData in getPosts.items" :key="postData.id">
+                    <div  class="posts__post-wrapper" v-for="postData in posts.data.items" :key="postData.id">
                         <post :postData="postData">
                             <template #content>
                                 <div class="posts__content-wrapper">

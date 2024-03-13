@@ -14,16 +14,9 @@
         <div class="toggler" v-if="postData.open_issues_count > 0">
             <toggler @onToggle="toggle"></toggler>
         </div>
-
-        <div class="post__comments" v-if="shown">
-            <div class="post__preloader" v-if="issues.loading[postData.name]">
-                <ul v-for="(preloader, index) in postData.open_issues_count" :key="index">
-                    <li :style="{  'width': index === 0 ? '80%' : (80 - (80 / postData.open_issues_count) * index) + '%' }"><preloader /></li>
-                </ul>
-            </div>
-
-            <div class="post__err-message" v-html="issues.error" v-else-if="issues.error"></div>
-
+        <div class="post__issues" v-if="shown">
+            <div class="post__preloader" v-if="issues.loading[postData.name]"><preloader /></div>
+            <div class="post__err-message" v-else-if="issues.error" v-html="issues.error"></div>
             <template v-else-if="issues.data">
                 <ul>
                     <li v-for="issue in getIssues(postData.name)" :key="issue.id">
@@ -128,7 +121,7 @@
         }
     }
 
-    &__comments {
+    &__issues {
         margin: 10px 0 0 0;
 
         li {

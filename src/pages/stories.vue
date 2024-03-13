@@ -9,10 +9,10 @@
             </button>
         </header>
 
-        <div class="slider__loader" v-if="posts.loading"><loader /></div>
+        <div class="stories__loader" v-if="posts.loading"><loader /></div>
 
         <div class="slider" v-else>
-            <button 
+            <button
                 class="slider__buttons prev"
                 @click="prevBtnClick()"
                 v-if="activeSlide > 0"
@@ -23,20 +23,24 @@
             </button>
             <div class="slider__row">
                 <ul class="slider__items" ref="sliderRow">
-                    <li v-for="(postData, index) in getPosts.items" :key="postData.id">
-                        <div 
+                    <li 
+                        v-for="(postData, index) in posts.data.items"
+                        :key="postData.id"
+                        @click="switchSlider(index)"
+                    >
+                        <div
                             class="slider__slide-wrapper"
                             :class="{ '__active' : activeSlide === index }"
                         >
-                            <!-- <sliderItem :postData="postData" :active="activeSlide === index"></sliderItem> -->
+                            <sliderItem :postData="postData" :active="activeSlide === index"></sliderItem>
                         </div>
                     </li>
                 </ul>
             </div>
             <button
                 class="slider__buttons next"
+                v-if="activeSlide < (posts.data.items.length - 1)"
                 @click="nextBtnClick()"
-                v-if="activeSlide < (getPosts.items.length - 1)"
             >
                 <svg class="menu__icon" viewBox="0 0 24 24" width="24" height="24">
                     <use href="../assets/sprite.svg#next" x="0" y="0"></use>
@@ -62,6 +66,14 @@
             logoLight,
             sliderItem,
             loader,
+        },
+
+        props: {
+            activeSlide: {
+                type: Number,
+                default: 0,
+                required: false,
+            },
         },
 
         data() {
@@ -91,6 +103,13 @@
             nextBtnClick() {
                 this.activeSlide++
                 this.moveSlider()
+            },
+
+            switchSlider(index) {
+                if(index !== this.activeSlide) {
+                    this.activeSlide = index
+                    this.moveSlider()
+                }
             },
 
             moveSlider() {
@@ -127,6 +146,12 @@
 
     &__close-btn {
         cursor: pointer;
+    }
+
+    &__loader {
+        display: flex;
+        justify-content: center;
+        margin: 40px 0 0 0;
     }
 }
 

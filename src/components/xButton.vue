@@ -1,8 +1,10 @@
 <template>
-    <button class="x-button"
-        @click="this.$emit('handleClick')">
+    <button 
+        class="x-button"
+        @click="this.$emit('handleClick')"
+    >
         <span class="x-button__btn-text">
-            <slot>follow</slot>
+            <slot ref="btn"></slot>
         </span>
     </button>
 </template>
@@ -16,7 +18,7 @@
 
         props: {
             hoverText: String
-        }
+        },
     })
 </script>
 

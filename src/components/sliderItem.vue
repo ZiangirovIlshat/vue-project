@@ -12,20 +12,17 @@
             </div>
         </header>
         <div class="slider-item__body">
-            <div class="slider-item__louder-wrapper">
-                <loader />
-            </div>
             <div class="slider-item__prelouder-wrapper" v-if="active === false">
-                <ul v-for="item in 2" :key="item">
-                    <li v-for="item in 3" :key="item"><preloader /></li>
-                </ul>
+                <preloader :count="2" />
             </div>
-            <div class="slider-item__content">
-
-            </div>
+            <template v-else>
+                <div class="slider-item__loader" v-if="postsReadme.loading[postData.name]"><loader/></div>
+                <div class="slider-item__content" v-else-if="postsReadme.error[postData.name]" v-html="postsReadme.error"></div>
+                <div class="slider-item__content" v-else-if="postsReadme.data" v-html="getPostsReadme(postData.name)"></div>
+            </template>
         </div>
         <footer class="slider-item__footer">
-            <xButton :hoverText="'unfollow'"></xButton>
+            <xButton :hoverText="'unfollow'">follow</xButton>
         </footer>
     </div>
 </template>
@@ -60,22 +57,26 @@
             }
         },
 
+        watch: {
+            active: {
+                heandler(newVal, oldVal) {
+                    if(this.active === true) this.fetchReadme([this.postData.owner.login, this.postData.name])
+                }
+            }
+        },
+
         computed: {
             ...mapState({
                 postsReadme: state => state.readme
             }),
             ...mapGetters({
-                getPostsReadme: "posts/getPostsReadme"
+                getPostsReadme: "readme/getPostsReadme"
             }),
         },
         methods: {
             ...mapActions({
-                fetchReadme: "posts/fetchPosts"
+                fetchReadme: "readme/fetchReadme"
             }),
-        },
-
-        created() {
-            this.fetchReadme([this.postData.owner.login, this.postData.name])
         },
     })
 </script>

@@ -60,11 +60,13 @@
 
         &:nth-child(2n+1) {
             background: #FAFBFC;
-            cursor: pointer;
             svg {
                 fill: #586069;
             }
+        }
 
+        &:nth-child(1) {
+            cursor: pointer;
             @media(hover: hover) and (pointer: fine) {
                 &:hover {
                     svg {

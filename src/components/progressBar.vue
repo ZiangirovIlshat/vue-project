@@ -1,5 +1,9 @@
 <template>
-    <div class="progressbar" :class="{'__active' : active}">
+    <div 
+        class="progressbar"
+        :class="{'__active' : active}"
+        @animationend="handleAnimationEnd"
+    >
         <div class="progressbar__indicator"></div>
     </div>
 </template>
@@ -12,6 +16,11 @@
         props: {
             active: Boolean,
         },
+        methods: {
+            handleAnimationEnd() {
+                this.$emit('animationFinished');
+            }
+        }
     })
 </script>
 
@@ -27,6 +36,19 @@
             .progressbar__indicator {
                 transition: width 5s ease-in-out;
                 width: 100%;
+
+                animation-duration: 5s;
+                animation-name: progressBar;
+            }
+
+            @keyframes progressBar {
+                from {
+                    width: 0;
+                }
+
+                to {
+                    width: 100%;
+                }
             }
         }
 

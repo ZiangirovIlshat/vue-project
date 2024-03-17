@@ -1,21 +1,19 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router"
 
-import feeds from '../pages/feeds'
-import stories from '../pages/stories'
+import feeds from "../pages/feeds"
+import stories from "../pages/stories"
 
 
 const routes = [
   {
-    path: '/',
-    alias: '/home',
-    name: 'home',
-    props: true,
+    path: "/",
+    alias: "/home",
+    name: "home",
     component: feeds,
   },
   {
-    path: '/stories',
-    name: 'stories',
-    props: true,
+    path: "/stories/:initialSlide?",
+    name: "stories",
     component: stories,
   },
 ]

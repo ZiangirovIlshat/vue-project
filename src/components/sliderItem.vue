@@ -2,23 +2,23 @@
     <div class="slider-item">
         <header class="slider-item__header">
             <div class="slider-item__progress-bar">
-                <progressbar :active="active" />
+                <progressbar :active="active && !loading" @animationFinished="handleAnimationFinished" />
             </div>
             <div class="slider-item__user-details">
-                <userDetails 
-                    :userName="postData.owner.login" 
-                    :avatarUrl="postData.owner.avatar_url">
+                <userDetails
+                    :userName="sliderData.ownerLogin" 
+                    :avatarUrl="sliderData.ownerAvatar">
                 </userDetails>
             </div>
         </header>
         <div class="slider-item__body">
-            <div class="slider-item__prelouder-wrapper" v-if="active === false && !postsReadme.data[postData.name]">
-                <preloader :count="2" />
+            <div class="slider-item__prelouder-wrapper" v-if="active === false && !sliderData.content">
+                <preloader :count="3" />
             </div>
             <template v-else>
-                <div class="slider-item__loader" v-if="postsReadme.loading[postData.name]"><loader/></div>
-                <div class="slider-item__content" v-else-if="postsReadme.error" v-html="postsReadme.error"></div>
-                <div class="slider-item__content" v-else-if="postsReadme.data[postData.name]" v-html="postsReadme.data[postData.name]"></div>
+                <div class="slider-item__loader" v-if="loading"><loader/></div>
+                <div class="slider-item__content" v-else-if="error"></div>
+                <div class="slider-item__content" v-else-if="sliderData.content" v-html="sliderData.content"></div>
             </template>
         </div>
         <footer class="slider-item__footer">
@@ -49,12 +49,16 @@
 
         props: {
             active: Boolean,
-            postsReadme: Object,
-            postData: {
-                type: Object,
-                required: true,
-            }
+            loading: Boolean,
+            error: String,
+            sliderData: Object,
         },
+
+        methods: {
+            handleAnimationFinished() {
+                this.$emit('animationFinished');
+            }
+        }
     })
 </script>
 

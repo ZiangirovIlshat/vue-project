@@ -34,8 +34,10 @@
         border: none;
     }
 
-    .x-button:hover {
-        background: #9E9E9E;
+    @media(hover: hover) and (pointer: fine) {
+        .x-button:hover {
+            background: #9E9E9E;
+        }
     }
 
 </style>

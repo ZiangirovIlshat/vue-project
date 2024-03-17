@@ -2,8 +2,8 @@
     <div class="post">
         <div class="post__header">
             <userDetails 
-                :userName="postData.owner.login" 
-                :avatarUrl="postData.owner.avatar_url">
+                :userName="postData.ownerLogin" 
+                :avatarUrl="postData.ownerAvatar">
             </userDetails>
         </div>
 
@@ -11,21 +11,19 @@
             <slot name="content"></slot>
         </div>
 
-        <div class="toggler" v-if="postData.open_issues_count > 0">
+        <div class="toggler" v-if="postData.issuesIsTrue">
             <toggler @onToggle="toggle"></toggler>
         </div>
         <div class="post__issues" v-if="shown">
-            <div class="post__preloader" v-if="issues.loading[postData.name]"><preloader /></div>
-            <div class="post__err-message" v-else-if="issues.error" v-html="issues.error"></div>
-            <template v-else-if="issues.data">
-                <ul>
-                    <li v-for="issue in getIssues(postData.name)" :key="issue.id">
-                        <b>{{ issue.user.login }}</b> {{ issue.title }}
-                    </li>
-                </ul>
-            </template>
+            <div class="post__preloader" v-if="issuesLoading"><preloader /></div>
+            <div class="post__err-message" v-else-if="issuesError" v-html="issuesError"></div>
+            <ul v-else-if="postData.issuesContent">
+                <li v-for="issue in postData.issuesContent" :key="issue.id">
+                    <b>{{ issue.user.login }}</b> {{ issue.title }}
+                </li>
+            </ul>
         </div>
-        <p class="post__date">{{ getFormattedDate(postData.created_at) }}</p>
+        <p class="post__date">{{ getFormattedDate(postData.createdAt) }}</p>
     </div>
 </template>
 
@@ -55,25 +53,35 @@
 
         data() {
             return {
-                postIssues: [],
                 shown: false,
+                issuesError: '',
+                issuesLoading: false,
             }
         },
 
         computed: {
             ...mapState({
-                issues: state => state.issues
+                posts: state => state.posts
             }),
-            ...mapGetters({
-                getIssues: 'issues/getIssues'
-            }),
+             ...mapGetters({
+                getRepoById: "getRepoById"
+            })
         },
         methods: {
             ...mapActions({
-                fetchIssues: 'issues/fetchIssues'
+                fetchIssues: 'posts/fetchIssues'
             }),
-            getData() {
-                this.fetchIssues([this.postData.owner.login, this.postData.name])
+
+            async getIssues() {
+                this.issuesLoading = true
+                try {
+                    const { id, ownerLogin, name } = this.postData
+                    await this.fetchIssues({ id, owner: ownerLogin, name })
+                } 
+                catch (e) { 
+                    console.log(e)
+                    this.issuesError = "Не удалось получить вопросы к этому посту" }
+                finally { this.issuesLoading = false }
             },
 
             getFormattedDate(str) {
@@ -87,7 +95,7 @@
 
             toggle(isOpened) {
                 this.shown = isOpened
-                this.getData()
+                this.getIssues()
             }
         }
     })
@@ -98,27 +106,6 @@
 
     &__header {
         margin: 0 0 15px 0;
-    }
-
-    &__placeholders {
-        height: 17px;
-        width: 80%;
-        border-radius: 5px;
-        background: linear-gradient(90deg, rgba(234,234,234,1) 0%, rgba(255,255,255,1) 100%);
-        background-size: 400% 400%;
-        animation: gradient 10s ease infinite;
-    }
-
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
     }
 
     &__issues {

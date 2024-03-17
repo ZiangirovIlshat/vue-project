@@ -7,11 +7,12 @@
         <template #content>
             <div class="users-stories" v-if="posts.data">
                 <ul class="users-stories__list">
-                    <li v-for="postData in posts.data.items" :key="postData.id">
+                    <li v-for="(postData, index) in posts.data" :key="postData.id">
                         <userStory
                             :userName="postData.owner.login"
                             :avatarUrl="postData.owner.avatar_url"
-                            @onPress="handlePress(postData.id)">
+                            @click="handlePress(index)"
+                        >
                         </userStory>
                     </li>
                 </ul>
@@ -22,18 +23,16 @@
         <div class="posts">
             <div class="posts__container">
                 <div class="posts__loader" v-if="posts.loading"><loader /></div>
-
                 <div class="posts__err-message" v-html="posts.error" v-else-if="posts.error"></div>
-
                 <template v-else-if="posts.data">
-                    <div  class="posts__post-wrapper" v-for="postData in posts.data.items" :key="postData.id">
-                        <post :postData="postData">
+                    <div  class="posts__post-wrapper" v-for="postData in posts.data" :key="postData.id">
+                        <post :postData="getPostData(postData)">
                             <template #content>
                                 <div class="posts__content-wrapper">
                                     <h2>{{postData.name}}</h2>
                                     <div class="posts__text" v-html="postData.description"></div>
                                     <div class="posts__details">
-                                        <postDetails 
+                                        <postDetails
                                             :stars="postData.stargazers_count"
                                             :fork="postData.forks_count">
                                         </postDetails>
@@ -83,21 +82,31 @@
             ...mapState({
                 posts: state => state.posts
             }),
-            ...mapGetters({
-                getPosts: 'posts/getPosts'
-            }),
         },
         methods: {
             ...mapActions({
-                fetchPosts: 'posts/fetchPosts'
+                fetchPosts: "posts/fetchPosts"
             }),
 
-            //TODO:
-            handlePress(id) {
+            handlePress(index) {
                 this.$router.push({
-                    name: 'stories',
-                    props: { 'postsData' : this.getPosts.items }
+                    name: "stories",
+                    params: { 
+                        initialSlide: index
+                    }
                 })
+            },
+
+            getPostData(obj) {
+                return {
+                    id : obj.id,
+                    name : obj.name,
+                    ownerLogin : obj.owner.login,
+                    ownerAvatar : obj.owner.avatar_url,
+                    issuesIsTrue : obj.open_issues_count > 0,
+                    issuesContent : obj.issues,
+                    createdAt: obj.created_at,
+                }
             }
         },
 

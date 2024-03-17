@@ -1,5 +1,5 @@
 <template>
-    <div class="user-story" @click="$emit('onPress')">
+    <div class="user-story">
         <div class="user-story__body">
             <div class="user-story__avatar">
                 <div class="user-story__avatar-body">
@@ -33,7 +33,6 @@
                 },
             },
         },
-        emits: ['onPress'],
     })
 </script>
 

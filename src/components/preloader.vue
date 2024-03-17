@@ -25,12 +25,12 @@
 
 <style lang="scss" scoped>
 .preloader {
-    width: 60%;
+    width: 70%;
 
     ul {
-        margin: 0 0 30px 0;
+        margin: 0 0 20px 0;
         li {
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
         }
         li:nth-child(2n + 1) {
             width: 60%;
@@ -42,6 +42,19 @@
         background: rgb(217,217,217);
         background: linear-gradient(90deg, rgba(217,217,217,1) 0%, rgba(234,234,234,1) 100%);
         border-radius: 3px;
+        animation: gradient 10s ease infinite;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 }
 

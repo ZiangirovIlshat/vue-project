@@ -24,7 +24,7 @@
             <div class="slider__row">
                 <ul class="slider__items" ref="sliderRow">
                     <li 
-                        v-for="(postData, index) in posts.data.items"
+                        v-for="(postData, index) in posts.data"
                         :key="postData.id"
                         @click="switchSlider(index)"
                     >
@@ -32,11 +32,11 @@
                             class="slider__slide-wrapper"
                             :class="{ '__active' : activeSlide === index }"
                         >
-                            {{ getActiveSlideData(index) }}
-                            <sliderItem 
-                                :postData="postData"
-                                :postsReadme="readme"
+                            <sliderItem
                                 :active="activeSlide === index"
+                                :loading="activeSlide === index && activeSlideLoading"
+                                :sliderData="getDataForActiveSlide(postData)"
+                                @animationFinished="switchToNextSlider"
                             >
                             </sliderItem>
                         </div>
@@ -45,7 +45,7 @@
             </div>
             <button
                 class="slider__buttons next"
-                v-if="activeSlide < (posts.data.items.length - 1)"
+                v-if="activeSlide < (posts.data.length - 1)"
                 @click="nextBtnClick()"
             >
                 <svg class="menu__icon" viewBox="0 0 24 24" width="24" height="24">
@@ -61,7 +61,7 @@
 
     import { mapState, mapActions, mapGetters } from "vuex";
 
-    import logoLight from "../components/logoLight";
+    import logoLight from "../components/logoLight"
     import sliderItem from "../components/sliderItem.vue"
     import loader from "../components/loader.vue"
 
@@ -74,36 +74,39 @@
             loader,
         },
 
-        props: {
-            // activeSlide: {
-            //     type: Number,
-            //     default: 0,
-            //     required: false,
-            // },
-        },
-
         data() {
             return {
                 activeSlide: 0,
-                activeSlideData: {},
+                activeSlideLoading: false,
+                sliderItemError: '',
             }
         },
 
         computed: {
             ...mapState({
                 posts: state => state.posts,
-                readme: state => state.readme,
-            }),
-            ...mapGetters({
-                getPosts: 'posts/getPosts',
-                getPostReadme: 'readme/getPostReadme',
             }),
         },
         methods: {
             ...mapActions({
                 fetchPosts: 'posts/fetchPosts',
-                fetchReadme: 'readme/fetchReadme',
+                fetchReadme: 'posts/fetchReadme',
             }),
+
+            getDataForActiveSlide(obj) {
+                return {
+                    ownerLogin : obj.owner.login,
+                    ownerAvatar : obj.owner.avatar_url,
+                    content : obj.readme,
+                    error : this.sliderItemError,
+                }
+            },
+
+            switchToNextSlider() {
+                if(this.activeSlide === (this.posts.data.length - 1)) this.activeSlide = -1
+                this.activeSlide++
+                this.moveSlider()
+            },
 
             prevBtnClick() {
                 this.activeSlide--
@@ -124,12 +127,17 @@
 
             moveSlider() {
                 this.$refs.sliderRow.style = `transform: translate(-${338*this.activeSlide}px);`
+                this.getActiveSlideData()
             },
 
-            getActiveSlideData(index) {
-                if(index !== this.activeSlide) return
-                let activePosts = this.posts.data.items[this.activeSlide]
-                this.fetchReadme([activePosts.owner.login, activePosts.name])
+            async getActiveSlideData() {
+                this.activeSlideLoading = true
+                try {
+                    const { id, owner, name } = this.posts.data[this.activeSlide]
+                    await this.fetchReadme({ id, owner: owner.login, name })
+                } 
+                catch { this.sliderItemError = "readme файл не обнаружен" } 
+                finally { this.activeSlideLoading = false }
             },
 
             close() {
@@ -138,8 +146,11 @@
         },
 
         created() {
-            this.fetchPosts()
-        }
+            this.activeSlide = Number(this.$route.params.initialSlide)
+            this.fetchPosts().then(() => {
+                this.moveSlider()
+            })
+        },
     })
 </script>
 
@@ -148,16 +159,23 @@
     background-color: #101010;
     min-height: 100vh;
 
+    @media (max-width: 576px) {
+        max-height: 100vh;
+    }
+
     &__header {
         max-width: 1220px;
-        padding: 0 10px;
         margin: 0 auto;
 
         display: flex;
         align-items: center;
         justify-content: space-between;
 
-        padding: 45px 0 0 0;
+        padding: 45px 10px 0 10px;
+
+        @media (max-width: 576px) {
+            padding: 20px 10px 0 10px;
+        }
     }
 
     &__close-btn {
@@ -193,9 +211,11 @@
             fill: #404040;
         }
 
-        &:hover {
-            svg {
-                fill: #31AE54;
+        @media(hover: hover) and (pointer: fine) {
+            &:hover {
+                svg {
+                    fill: #31AE54;
+                }
             }
         }
     }
@@ -203,6 +223,10 @@
     &__row {
         overflow: hidden;
         margin-top: 90px;
+
+        @media (max-width: 576px) {
+            margin-top: 20px;
+        }
     }
 
     &__items {
@@ -211,6 +235,10 @@
         align-items: center;
         gap: 38px;
         transition: .3s;
+
+        @media (max-width: 576px) {
+            margin-left: calc(50% - 40vw);
+        }
     }
 
     &__slide-wrapper {
@@ -224,6 +252,11 @@
             height: 667px;
             width: 375px;
             opacity: 1;
+
+            @media (max-width: 576px) {
+                height: 80vh;
+                width: 80vw;
+            }
         }
 
         background: #fff;
@@ -233,9 +266,15 @@
 
 .prev {
     left: calc(50% - 240px);
+    @media (max-width: 576px) {
+        left: calc(50% - 50vw);
+    }
 }
 .next {
     right: calc(50% - 240px);
+    @media (max-width: 576px) {
+        right: calc(50% - 50vw);
+    }
 }
 
 </style>

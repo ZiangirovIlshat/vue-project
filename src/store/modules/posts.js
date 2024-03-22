@@ -46,10 +46,10 @@ const posts = {
 
       try {
         const url = new URL("https://api.github.com/search/repositories");
-        url.searchParams.set('order', "desc");
-        url.searchParams.set('sort', "start");
-        url.searchParams.set('q', "language:javascript created:>" + getOneWeekAgoDate());
-        url.searchParams.set('per_page', 10);
+        url.searchParams.set("order", "desc");
+        url.searchParams.set("sort", "start");
+        url.searchParams.set("q", "language:javascript created:>" + getOneWeekAgoDate());
+        url.searchParams.set("per_page", 10);
 
         const response = await fetch(url.toString());
         const data = await response.json();

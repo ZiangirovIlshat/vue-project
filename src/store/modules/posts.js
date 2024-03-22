@@ -23,15 +23,6 @@ const posts = {
         return repo;
       })
     },
-    SET_ISSUES_DATA(state, payload) {
-      state.data = state.data.map( repo => {
-        if(payload.id === repo.id) {
-          repo.issues = payload.content
-        }
-
-        return repo;
-      })
-    },
     SET_POSTS_LOADING(state, payload) {
       state.loading = payload
     },
@@ -51,7 +42,11 @@ const posts = {
         url.searchParams.set("q", "language:javascript created:>" + getOneWeekAgoDate());
         url.searchParams.set("per_page", 10);
 
-        const response = await fetch(url.toString());
+        const response = await fetch(url.toString(), {
+          headers: {
+            Authorization: `token ${localStorage.getItem("token")}`
+          }
+        });
         const data = await response.json();
 
         if(data.items === undefined) {
@@ -75,26 +70,13 @@ const posts = {
         const response = await fetch(`https://api.github.com/repos/${owner}/${name}/readme`, {
           headers: {
             "accept" : "application/vnd.github.v3.html+json",
+            Authorization: `token ${localStorage.getItem("token")}`
           },
         })
 
         const data = await response.text()
 
         commit("SET_README_DATA", { id, content: data })
-      } catch (e){
-        throw e
-      }
-    },
-
-    async fetchIssues({ commit, getters }, { id, owner, name }) {
-      const curRepo = getters.getRepoById(id)
-      if(curRepo.issues !== undefined) return
-
-      try {
-        const response = await fetch(`https://api.github.com/repos/${owner}/${name}/issues`)
-        const data = await response.json()
-
-        commit("SET_ISSUES_DATA", { id, content: data })
       } catch (e){
         throw e
       }

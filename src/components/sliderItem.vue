@@ -32,8 +32,15 @@
         ></div>
       </template>
     </div>
+    <p class="slider-item__err-message">{{errMessage}}</p>
     <footer class="slider-item__footer">
-      <xButton :loading="false" :type="'green'" @click="onFollow()">follow</xButton>
+      <xButton 
+        :loading="isLoading"
+        :type="isLiked ? 'gray' : 'green'"
+        @click="starRepo()"
+      >
+      {{isLiked ? "unfollow" : "follow"}}
+      </xButton>
     </footer>
   </div>
 </template>
@@ -58,7 +65,7 @@ export default defineComponent({
     loader,
   },
 
-  emits: ["onFollow","animationFinished"],
+  emits: ["onFollow", "animationFinished"],
 
   props: {
     active: Boolean,
@@ -67,18 +74,60 @@ export default defineComponent({
     sliderData: Object,
   },
 
+  data() {
+    return {
+      isLiked: false,
+      errMessage: "",
+      isLoading: false,
+    }
+  },
+
   methods: {
     handleAnimationFinished() {
       this.$emit("animationFinished");
     },
 
-    onFollow() {
-      // if() {
-      //   /user/starred/${owner}/${repo}
-      // }
-      // else {
+    starRepo() {
+      this.isLoading = true
 
-      // }
+      try {
+        if(!this.isLiked) {
+          this.setStar(this.sliderData.ownerLogin, this.sliderData.name)
+        } else {
+          this.removeStar(this.sliderData.ownerLogin, this.sliderData.name)
+        }
+      } catch(err) {
+        console.log(err)
+        this.errMessage = "Не удалось выполнить действие"
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async setStar(owner, repo) {
+      try {
+        const response = await fetch(`https://api.github.com/user/starred/${owner}/${repo}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${localStorage.getItem("token")}`
+          }
+        })
+      } catch(e) {
+        throw e
+      }
+    },
+
+    async removeStar(owner, repo) {
+      try {
+        const response = await fetch(`https://api.github.com/user/starred/${owner.login}/${repo}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `token ${localStorage.getItem("token")}`
+          }
+        })
+      } catch(e) {
+        throw e
+      }
     },
   },
 });
@@ -115,6 +164,12 @@ export default defineComponent({
       background-color: #afafaf;
       border-radius: 2px;
     }
+  }
+
+  &__err-message {
+    color: #8B0000;
+    font-size: 12px;
+    text-align: center;
   }
 
   &__loader {

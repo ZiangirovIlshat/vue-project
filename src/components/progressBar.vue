@@ -34,10 +34,9 @@ export default defineComponent({
 
   &.__active {
     .progressbar__indicator {
-      transition: width 5s ease-in-out;
       width: 100%;
 
-      animation-duration: 5s;
+      animation-duration: 10s;
       animation-name: progressBar;
     }
 

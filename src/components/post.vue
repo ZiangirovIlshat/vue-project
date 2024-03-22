@@ -59,7 +59,7 @@ export default defineComponent({
 
   computed: {
     ...mapState({
-      posts: (state) => state.posts,
+      likedPosts: (state) => state.likedPosts,
     }),
     ...mapGetters({
       getRepoById: "getRepoById",
@@ -67,7 +67,7 @@ export default defineComponent({
   },
   methods: {
     ...mapActions({
-      fetchIssues: "posts/fetchIssues",
+      fetchIssues: "likedPosts/fetchIssues",
     }),
 
     async getIssues() {
@@ -76,7 +76,6 @@ export default defineComponent({
         const { id, ownerLogin, name } = this.postData;
         await this.fetchIssues({ id, owner: ownerLogin, name });
       } catch (e) {
-        console.log(e);
         this.issuesError = "Не удалось получить вопросы к этому посту";
       } finally {
         this.issuesLoading = false;

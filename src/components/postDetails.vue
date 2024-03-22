@@ -64,17 +64,6 @@ export default defineComponent({
       }
     }
 
-    &:nth-child(1) {
-      cursor: pointer;
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          svg {
-            fill: #31ae54;
-          }
-        }
-      }
-    }
-
     &:last-child {
       border-right: 0;
     }

@@ -58,6 +58,7 @@ export default {
     updateScreenWidth() {
       this.screenWidth = window.innerWidth;
     },
+
     getCode() {
       const url = new URL("https://github.com/login/oauth/authorize")
       url.searchParams.set("client_id", env.clientId);
@@ -116,7 +117,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   &__text-content {

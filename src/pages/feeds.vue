@@ -7,7 +7,7 @@
     <template #content>
       <div class="users-stories" v-if="posts.data">
         <ul class="users-stories__list">
-          <li v-for="(postData, index) in posts.data" :key="postData.id">
+          <li v-for="(postData, index) in getUnstarredOnly" :key="postData.id">
             <userStory
               :userName="postData.owner.login"
               :avatarUrl="postData.owner.avatar_url"
@@ -22,16 +22,16 @@
   <main class="main">
     <div class="posts">
       <div class="posts__container">
-        <div class="posts__loader" v-if="posts.loading"><loader /></div>
+        <div class="posts__loader" v-if="likedPosts.loading"><loader /></div>
         <div
           class="posts__err-message"
-          v-html="posts.error"
-          v-else-if="posts.error"
+          v-html="likedPosts.error"
+          v-else-if="likedPosts.error"
         ></div>
-        <template v-else-if="posts.data">
+        <template v-else-if="likedPosts.data">
           <div
             class="posts__post-wrapper"
-            v-for="postData in posts.data"
+            v-for="postData in likedPosts.data"
             :key="postData.id"
           >
             <post :postData="getPostData(postData)">
@@ -90,11 +90,14 @@ export default defineComponent({
   computed: {
     ...mapState({
       posts: (state) => state.posts,
+      likedPosts: (state) => state.likedPosts,
     }),
+    ...mapGetters(["getUnstarredOnly"])
   },
   methods: {
     ...mapActions({
       fetchPosts: "posts/fetchPosts",
+      fetchLikedPosts: "likedPosts/fetchLikedPosts"
     }),
 
     handlePress(index) {
@@ -120,6 +123,7 @@ export default defineComponent({
   },
 
   created() {
+    this.fetchLikedPosts();
     this.fetchPosts();
   },
 });

@@ -24,7 +24,7 @@
       <div class="slider__row">
         <ul class="slider__items" ref="sliderRow">
           <li
-            v-for="(postData, index) in posts.data"
+            v-for="(postData, index) in getUnstarredOnly"
             :key="postData.id"
             @click="switchSlider(index)"
           >
@@ -44,7 +44,7 @@
       </div>
       <button
         class="slider__buttons next"
-        v-if="activeSlide < (posts.data.length - 1)"
+        v-if="activeSlide < (getUnstarredOnly - 1)"
         @click="nextBtnClick()"
       >
         <svg class="menu__icon" viewBox="0 0 24 24" width="24" height="24">
@@ -85,6 +85,7 @@ export default defineComponent({
     ...mapState({
       posts: (state) => state.posts,
     }),
+    ...mapGetters(["getUnstarredOnly"])
   },
   methods: {
     ...mapActions({
@@ -97,13 +98,14 @@ export default defineComponent({
         id: obj.id,
         ownerLogin: obj.owner.login,
         ownerAvatar: obj.owner.avatar_url,
+        name: obj.name,
         content: obj.readme,
         error: this.sliderItemError,
       };
     },
 
     switchToNextSlider() {
-      if(this.activeSlide === (this.posts.data.length - 1)) this.activeSlide = -1
+      if(this.activeSlide === (this.getUnstarredOnly.length - 1)) this.activeSlide = -1
       this.activeSlide++
       this.moveSlider()
     },
@@ -133,7 +135,7 @@ export default defineComponent({
     async getActiveSlideData() {
       this.activeSlideLoading = true;
       try {
-        const { id, owner, name } = this.posts.data[this.activeSlide];
+        const { id, owner, name } = this.getUnstarredOnly[this.activeSlide];
         await this.fetchReadme({ id, owner: owner.login, name });
       } catch {
         this.sliderItemError = "readme файл не обнаружен";

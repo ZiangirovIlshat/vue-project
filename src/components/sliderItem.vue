@@ -34,12 +34,12 @@
     </div>
     <p class="slider-item__err-message">{{errMessage}}</p>
     <footer class="slider-item__footer">
-      <xButton 
-        :loading="isLoading"
-        :type="isLiked ? 'gray' : 'green'"
-        @click="starRepo()"
+      <xButton
+        :loading="sliderData.following.loading === true"
+        :type="sliderData.following.status ? 'gray' : 'green'"
+        @click="$emit(sliderData.following.status ? 'removeStar' : 'setStar', sliderData.id)"
       >
-      {{isLiked ? "unfollow" : "follow"}}
+      {{sliderData.following.status ? "unfollow" : "follow"}}
       </xButton>
     </footer>
   </div>
@@ -65,7 +65,7 @@ export default defineComponent({
     loader,
   },
 
-  emits: ["onFollow", "animationFinished"],
+  emits: ["removeStar", "setStar", "animationFinished"],
 
   props: {
     active: Boolean,
@@ -85,49 +85,6 @@ export default defineComponent({
   methods: {
     handleAnimationFinished() {
       this.$emit("animationFinished");
-    },
-
-    starRepo() {
-      this.isLoading = true
-
-      try {
-        if(!this.isLiked) {
-          this.setStar(this.sliderData.ownerLogin, this.sliderData.name)
-        } else {
-          this.removeStar(this.sliderData.ownerLogin, this.sliderData.name)
-        }
-      } catch(err) {
-        console.log(err)
-        this.errMessage = "Не удалось выполнить действие"
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    async setStar(owner, repo) {
-      try {
-        const response = await fetch(`https://api.github.com/user/starred/${owner}/${repo}`, {
-          method: "PUT",
-          headers: {
-            Authorization: `token ${localStorage.getItem("token")}`
-          }
-        })
-      } catch(e) {
-        throw e
-      }
-    },
-
-    async removeStar(owner, repo) {
-      try {
-        const response = await fetch(`https://api.github.com/user/starred/${owner.login}/${repo}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `token ${localStorage.getItem("token")}`
-          }
-        })
-      } catch(e) {
-        throw e
-      }
     },
   },
 });

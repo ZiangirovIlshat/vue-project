@@ -2,7 +2,7 @@
   <topline>
     <template #headline>
       <logo />
-      <mainMenu />
+      <mainMenu :avatarUrl="user.data.avatar_url"/>
     </template>
     <template #content>
       <div class="users-stories" v-if="posts.data">
@@ -91,6 +91,7 @@ export default defineComponent({
     ...mapState({
       posts: (state) => state.posts,
       likedPosts: (state) => state.likedPosts,
+      user: (state) => state.user,
     }),
     ...mapGetters(["getUnstarredOnly"])
   },

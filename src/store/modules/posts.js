@@ -3,7 +3,7 @@ const posts = {
   state: {
     data: [],
     loading: false,
-    error: '',
+    error: "",
   },
 
   getters: {
@@ -12,8 +12,22 @@ const posts = {
 
   mutations: {
     SET_POSTS_DATA(state, payload) {
-      state.data = payload.items
+      state.data = payload.items.map(item => {
+        item.following = {
+          status: false,
+          loading: false,
+          error: "",
+        }
+        return item
+      })
     },
+    SET_POSTS_LOADING(state, payload) {
+      state.loading = payload
+    },
+    SET_POSTS_ERROR(state, payload) {
+      state.error = payload
+    },
+
     SET_README_DATA(state, payload) {
       state.data = state.data.map( repo => {
         if(payload.id === repo.id) {
@@ -23,11 +37,17 @@ const posts = {
         return repo;
       })
     },
-    SET_POSTS_LOADING(state, payload) {
-      state.loading = payload
-    },
-    SET_POSTS_ERROR(state, payload) {
-      state.error = payload
+
+    SET_FOLLOWING_DATA(state, payload) {
+      state.data = state.data.map(item => {
+        if(payload.id === item.id) {
+          item.following = {
+            ...item.following,
+            ...payload.data
+          }
+        }
+        return item
+      })
     }
   },
 
@@ -49,14 +69,9 @@ const posts = {
         });
         const data = await response.json();
 
-        if(data.items === undefined) {
-          commit("SET_POSTS_ERROR", "<b>Ой! Что-то пошло не так... :(</b><br>Не удалось получить данные");
-          return
-        }
-
         commit("SET_POSTS_DATA", data);
-      } catch (error) {
-        commit("SET_POSTS_ERROR", "<b>Ой! Что-то пошло не так... :(</b><br>Не удалось получить данные");
+      } catch {
+        commit("SET_POSTS_DATA", []);
       } finally {
         commit("SET_POSTS_LOADING", false);
       }
@@ -81,6 +96,47 @@ const posts = {
         throw e
       }
     },
+
+    async setStar({ commit, getters }, id) {
+      const { name, owner } = getters.getRepoById(id)
+      commit("SET_FOLLOWING_DATA", { id, data: { status: false, loading: true, error: "" } })
+
+      try {
+        await fetch(`https://api.github.com/user/starred/${owner.login}/${name}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Length": "0"
+          }
+        });
+        commit("SET_FOLLOWING_DATA", { id, data: { status: true } })
+      } catch {
+        commit("SET_FOLLOWING_DATA", { id, data: { error: "Не удалось выполнить действие" } })
+      } finally {
+        commit("SET_FOLLOWING_DATA", { id, data: { loading: false } })
+      }
+    },
+
+    async removeStar({ commit, getters }, id) {
+      const { name, owner } = getters.getRepoById(id)
+
+      commit("SET_FOLLOWING_DATA", { id,data: { status: true, loading: true, error: "" } })
+
+      try {
+        await fetch(`https://api.github.com/user/starred/${owner.login}/${name}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Length": "0"
+          }
+        });
+        commit("SET_FOLLOWING_DATA", { id, data: { status: false, } })
+      } catch {
+        commit("SET_FOLLOWING_DATA", { id, data: { error: "Не удалось выполнить действие", } })
+      } finally {
+        commit("SET_FOLLOWING_DATA", { id, data: { loading: false, } })
+      }
+    }
   }
 }
 

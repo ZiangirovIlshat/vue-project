@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 
+import store from "../store/index";
+
 import feeds from "../pages/feeds"
 import stories from "../pages/stories"
 import auth from "../pages/auth"
@@ -29,7 +31,6 @@ const router = createRouter({
   routes,
 })
 
-
 router.beforeEach( async (to, from, next)=> {
   if(to.name === "auth") {
     next();
@@ -37,14 +38,10 @@ router.beforeEach( async (to, from, next)=> {
   }
 
   try {
-    const response = await fetch("https://api.github.com/user", {
-      headers: {
-        Authorization: `token ${localStorage.getItem("token")}`
-      }
-    });
-    if(response.status === 401) throw new Error;
+    await store.dispatch("user/fetchUser");
     next();
-  } catch {
+  } catch (e){
+    console.log(e)
     next({name: "auth"});
   }
 })

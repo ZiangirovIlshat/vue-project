@@ -5,7 +5,7 @@
     @click="this.$emit('handleClick')"
   >
     <span class="x-button__btn-text">
-      <loader v-if="loading" :color="'#fff'" :size="24" />
+      <loader v-if="loading" :color="'#fff'" :size="'24'" />
       <slot v-else />
     </span>
   </button>

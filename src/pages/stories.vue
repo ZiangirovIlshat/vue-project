@@ -10,7 +10,6 @@
     </header>
 
     <div class="stories__loader" v-if="posts.loading"><loader /></div>
-
     <div class="slider" v-else>
       <button 
         class="slider__buttons prev"
@@ -37,6 +36,8 @@
                 :loading="activeSlide === index && activeSlideLoading"
                 :sliderData="getDataForActiveSlide(postData)"
                 @animationFinished="switchToNextSlider"
+                @setStar="setStar"
+                @removeStar="removeStar"
               />
             </div>
           </li>
@@ -91,6 +92,8 @@ export default defineComponent({
     ...mapActions({
       fetchPosts: "posts/fetchPosts",
       fetchReadme: "posts/fetchReadme",
+      removeStar: "posts/removeStar",
+      setStar: "posts/setStar",
     }),
 
     getDataForActiveSlide(obj) {
@@ -98,8 +101,8 @@ export default defineComponent({
         id: obj.id,
         ownerLogin: obj.owner.login,
         ownerAvatar: obj.owner.avatar_url,
-        name: obj.name,
         content: obj.readme,
+        following: obj.following,
         error: this.sliderItemError,
       };
     },
@@ -152,7 +155,7 @@ export default defineComponent({
   created() {
     this.activeSlide = Number(this.$route.params.initialSlide);
     this.fetchPosts().then(() => {
-      this.moveSlider();
+      if(!this.posts.error) this.moveSlider();
     });
   },
 });
@@ -197,6 +200,18 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     margin: 40px 0 0 0;
+  }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 0 0;
+
+    p {
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+    }
   }
 }
 

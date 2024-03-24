@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 
 import posts from './modules/posts';
 import likedPosts from './modules/likedPosts';
+import user from './modules/user';
 
 export default createStore({
   getters: {
@@ -16,5 +17,6 @@ export default createStore({
   modules: {
     posts,
     likedPosts,
+    user,
   }
 });

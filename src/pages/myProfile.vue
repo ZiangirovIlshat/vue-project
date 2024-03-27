@@ -14,12 +14,13 @@
         </div>
         <div class="my-profile__column">
           <div class="my-profile__column-head">
-            <h2 v-if="$route.params.page === 'repos'">Repositories</h2>
-            <h2 v-if="$route.params.page === 'following'">Following</h2>
-            <span>{{user.data.public_repos}}</span>
+            <h2 v-if="page === 'repos'">Repositories</h2>
+            <h2 v-if="page === 'following'">Following</h2>
+            <span v-if="page === 'repos'">{{user.data.public_repos}}</span>
+            <span v-if="page === 'following'">{{user.data.following}}</span>
           </div>
-          <myRepos/>
-          <!-- <myFollowing/> -->
+          <myRepos v-if="page === 'repos'"/>
+          <myFollowing v-if="page === 'following'"/>
         </div>
       </div>
     </div>
@@ -50,8 +51,10 @@
       myRepos,
     },
 
-    props: {
-      
+    watch: {
+      '$route.params.page'(newPage) {
+        this.page = newPage;
+      }
     },
 
     data() {
@@ -65,9 +68,6 @@
         user: (state) => state.user,
       }),
     },
-    methods: {
-
-    },
 
     created() {
       this.page = this.$route.params.page
@@ -78,16 +78,19 @@
 <style lang="scss" scoped>
   .my-profile {
     border-top: 1px solid #d3d3d3;
+    min-height: 100vh;
 
 		&__container {
       max-width: 1220px;
       padding: 0 10px;
       margin: 0 auto;
+      min-height: 100%;
     }
 
     &__wrapper {
       display: flex;
       max-width: 100%;
+      min-height: 100%;
     }
 
     &__column {

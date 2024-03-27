@@ -19,10 +19,10 @@ const repos = {
   },
   
   actions: {
-    async fetchRepos({ commit }) {
+    async fetchRepos({ commit }, userLogin) {
       commit("SET_REPOS_DATA", true);
       try {
-        const response = await fetch("https://api.github.com/users/ZiangirovIlshat/repos", {
+        const response = await fetch(`https://api.github.com/users/${userLogin}/repos`, {
           headers: {
             Authorization: `token ${localStorage.getItem("token")}`
           }

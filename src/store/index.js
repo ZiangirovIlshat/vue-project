@@ -1,9 +1,10 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 
-import posts from './modules/posts';
-import likedPosts from './modules/likedPosts';
-import user from './modules/user';
-import repos from './modules/repos';
+import posts from "./modules/posts";
+import likedPosts from "./modules/likedPosts";
+import user from "./modules/user";
+import repos from "./modules/repos";
+import following from "./modules/following"
 
 export default createStore({
   getters: {
@@ -20,5 +21,6 @@ export default createStore({
     likedPosts,
     user,
     repos,
+    following,
   }
 });

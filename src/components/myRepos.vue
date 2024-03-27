@@ -3,10 +3,13 @@
       <div class="my-repos__loading" v-if="repos.loading"><loader /></div>
       <div class="my-repos__error" v-else-if="repos.error" v-html="repos.error"></div>
       <div class="my-repos__data" v-else-if="repos.data">
+        <div class="my-repos__no-data" v-if="repos.data.length === 0">
+          <p>У вас нет активных репозиториев</p>
+        </div>
         <div v-for="item in repos.data" :key="item.id">
           <div class="my-repos__repo-item">
             <h3>{{item.name}}</h3>
-            <p>{{item.description}}</p>
+            <p v-html="item.description"></p>
             <postDetails :stars="item.stargazers_count" :fork="item.forks_count" />
           </div>
         </div>
@@ -20,7 +23,7 @@
   import { mapState, mapActions, mapGetters } from "vuex";
 
   import loader from "../components/loader.vue";
-  import postDetails from "../components/postDetails.vue";
+  import postDetails from "../components/postDetails.vue"
 
   export default defineComponent({
     components: {
@@ -30,6 +33,7 @@
 
     computed: {
       ...mapState({
+        user: (state) => state.user,
         repos: (state) => state.repos,
       }),
     },
@@ -38,16 +42,10 @@
       ...mapActions({
         fetchRepos: "repos/fetchRepos",
       }),
-
-      getDataForPost(item) {
-        return {
-            
-        }
-      }
     },
 
     created() {
-      this.fetchRepos()
+      this.fetchRepos(this.user.data.login)
     }
   });
 </script>
@@ -74,6 +72,7 @@
       h3 {
         margin: 0 0 12px 0;
         font-size: 26px;
+        font-weight: 700;
       }
 
       p {

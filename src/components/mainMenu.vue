@@ -10,7 +10,7 @@
       </li>
       <li>
         <div class="menu__nested-menu">
-            <div class="menu__img-container" @click="openNestedMenu()">
+            <div class="menu__img-container" @click="nestedMenuIsOpen = !nestedMenuIsOpen" v-click-outside="handleClickOutside">
               <img :src="avatarUrl" />
             </div>
             <ul class="menu__nested-menu-list" v-if="nestedMenuIsOpen">
@@ -63,8 +63,8 @@ export default defineComponent({
         });
       }
     },
-    openNestedMenu() {
-      this.nestedMenuIsOpen = !this.nestedMenuIsOpen
+    handleClickOutside() {
+      this.nestedMenuIsOpen = false
     }
   }
 });

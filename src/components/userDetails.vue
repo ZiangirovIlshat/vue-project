@@ -3,7 +3,10 @@
     <div class="user-details__avatar">
       <img :src="avatarUrl" :alt="userName" />
     </div>
-    <p class="user-details__name">{{ userName }}</p>
+    <div>
+      <p class="user-details__name">{{ userName }}</p>
+      <p class="user-details__role" v-if="userRole">{{ userRole }}</p>
+    </div>
   </div>
 </template>
 
@@ -19,6 +22,10 @@ export default defineComponent({
     userName: {
       type: String,
     },
+    userRole: {
+      type: String,
+      default: "",
+    }
   },
 });
 </script>
@@ -58,6 +65,10 @@ export default defineComponent({
     @media (max-width: 576px) {
       font-size: 16px;
     }
+  }
+  &__role {
+    font-size: 12px;
+    color: #9E9E9E;
   }
 }
 </style>

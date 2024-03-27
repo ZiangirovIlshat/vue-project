@@ -36,6 +36,7 @@ import preloader from "../components/preloader";
 
 export default defineComponent({
   name: "post",
+
   components: {
     userDetails,
     toggler,

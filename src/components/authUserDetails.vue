@@ -1,9 +1,13 @@
 <template>
   <div class="user-details">
     <div class="user-details__avatar">
-      <img :src="avatarUrl" :alt="userName" />
+      <img :src="data.avatar_url" :alt="data.login" />
     </div>
-    <p class="user-details__name">{{ userName }}</p>
+    <div>
+        <p class="user-details__name">{{ data.login }}</p>
+        <p><b>54</b> repost <b>834</b> <a href="">watchers</a></p>
+        <p>{{data.name}}</p>
+    </div>
   </div>
 </template>
 
@@ -12,13 +16,29 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "userDetails",
+
   props: {
-    avatarUrl: {
-      type: String,
+    data: {
+      type: Object,
+      required: true,
     },
-    userName: {
-      type: String,
-    },
+  },
+
+  data() {
+    return {
+      reposts: ['repos_url'],
+      views: [],
+    }
+  },
+
+  methods: {
+    async getData() {
+      try {
+        
+      } catch {
+
+      }
+    }
   },
 });
 </script>
@@ -30,10 +50,10 @@ export default defineComponent({
   gap: 15px;
 
   &__avatar {
-    width: 45px;
-    height: 45px;
-    min-width: 45px;
-    min-height: 45px;
+    width: 90px;
+    height: 90px;
+    min-width: 90px;
+    min-height: 90px;
     overflow: hidden;
     border-radius: 50%;
 
@@ -48,6 +68,19 @@ export default defineComponent({
       height: 35px;
       min-width: 35px;
       min-height: 35px;
+    }
+  }
+
+  p {
+    margin: 3px 0;
+
+    a {
+      color: #31ae54;
+      text-decoration: underline;
+    }
+
+    &:nth-child(3) {
+      color: #9e9e9e;
     }
   }
 

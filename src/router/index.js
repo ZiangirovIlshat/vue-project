@@ -4,6 +4,7 @@ import store from "../store/index";
 
 import feeds from "../pages/feeds"
 import stories from "../pages/stories"
+import myProfile from "../pages/myProfile"
 import auth from "../pages/auth"
 
 
@@ -18,6 +19,11 @@ const routes = [
     path: "/stories/:initialSlide?",
     name: "stories",
     component: stories,
+  },
+  {
+    path: "/myprofile/:page?",
+    name: "myProfile",
+    component: myProfile,
   },
   {
     path: "/auth",

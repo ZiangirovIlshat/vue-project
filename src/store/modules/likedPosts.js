@@ -40,12 +40,6 @@ const likedPosts = {
           }
         });
         const data = await response.json();
-
-        if(data === undefined) {
-          commit("SET_POSTS_ERROR", "<b>Ой! Что-то пошло не так... :(</b><br>Не удалось получить данные");
-          return
-        };
-
         commit("SET_POSTS_DATA", data);
       } catch (error) {
         commit("SET_POSTS_ERROR", "<b>Ой! Что-то пошло не так... :(</b><br>Не удалось получить данные");

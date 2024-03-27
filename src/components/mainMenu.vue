@@ -9,11 +9,19 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/">
-          <div class="menu__img-container">
-            <img :src="avatarUrl" />
-          </div>
-        </router-link>
+        <div class="menu__nested-menu">
+            <div class="menu__img-container" @click="openNestedMenu()">
+              <img :src="avatarUrl" />
+            </div>
+            <ul class="menu__nested-menu-list" v-if="nestedMenuIsOpen">
+              <li>
+                <router-link to="/myprofile/repos">Repositories</router-link>
+              </li>
+              <li>
+                <router-link to="/myprofile/following">Following</router-link>
+              </li>
+            </ul>
+        </div>
       </li>
       <li>
         <a @click="exit()">
@@ -40,6 +48,12 @@ export default defineComponent({
     },
   },
 
+  data() {
+    return {
+      nestedMenuIsOpen: false,
+    }
+  },
+
   methods: {
     exit() {
       if (confirm("Вы уверены, что хотите выйти?")) {
@@ -48,6 +62,9 @@ export default defineComponent({
           name: "auth",
         });
       }
+    },
+    openNestedMenu() {
+      this.nestedMenuIsOpen = !this.nestedMenuIsOpen
     }
   }
 });
@@ -82,6 +99,42 @@ export default defineComponent({
       object-fit: cover;
     }
   }
+
+	&__nested-menu {
+    cursor: pointer;
+    position: relative;
+
+    ul {
+      display: block;
+    }
+	}
+
+
+	&__nested-menu-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: calc(-50% - 17.5px);
+    z-index: 2;
+    background-color: #fff;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.04);
+    border-radius: 5px;
+    overflow: hidden;
+
+    li {
+      a {
+        display: block;
+        padding: 10px;
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            margin: 0;
+            background-color: #fafbfc;
+          }
+        }
+      }
+    }
+  }
+		
+
 
   &__icon {
     width: 24px;

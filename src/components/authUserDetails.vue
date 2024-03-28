@@ -5,7 +5,10 @@
     </div>
     <div>
         <p class="user-details__name">{{ data.login }}</p>
-        <p><b>54</b> repost <b>834</b> <a href="">watchers</a></p>
+        <div class="user-details__stat-data">
+          <p><b>54</b> repost</p>
+          <p><b>834</b> <a href="">watchers</a></p>
+        </div>
         <p>{{data.name}}</p>
     </div>
   </div>
@@ -48,6 +51,8 @@ export default defineComponent({
   display: flex;
   align-items: center;
   gap: 15px;
+  position: sticky;
+  top: 20px;
 
   &__avatar {
     width: 90px;
@@ -64,10 +69,10 @@ export default defineComponent({
     }
 
     @media (max-width: 576px) {
-      width: 35px;
-      height: 35px;
-      min-width: 35px;
-      min-height: 35px;
+      width: 62px;
+      height: 62px;
+      min-width: 62px;
+      min-height: 62px;
     }
   }
 
@@ -87,10 +92,20 @@ export default defineComponent({
   &__name {
     font-size: 18px;
     font-weight: 600;
+    word-wrap: break-word;
 
     @media (max-width: 576px) {
       font-size: 16px;
     }
   }
-}
+
+  &__stat-data {
+    display: flex;
+    flex-wrap: wrap;
+
+    p {
+      margin: 0 10px 0 0;
+    }
+  }
+} 
 </style>

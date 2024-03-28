@@ -7,9 +7,6 @@
           <p>У вас нет активных подписок</p>
         </div>
       <div v-for="item in following.data" :key="item.id">
-        <!-- <pre>
-          {{item.type}}
-        </pre> -->
         <div class="my-following__item">
           <userDetails :avatarUrl="item.avatar_url" :userName="item.login" :userRole="item.type" />
           <xButton>follow</xButton>
@@ -20,59 +17,58 @@
 </template>
 
 <script>
-  import { defineComponent } from "vue";
+  import { defineComponent, computed } from "vue";
+import { useStore } from "vuex";
 
-  import { mapState, mapActions, mapGetters } from "vuex";
+import loader from "../components/loader.vue";
+import userDetails from "../components/userDetails.vue";
+import xButton from "../components/xButton.vue";
 
-  import loader from "../components/loader.vue";
-  import userDetails from "../components/userDetails.vue";
-  import xButton from "../components/xButton.vue";
+export default defineComponent({
+  components: {
+    loader,
+    userDetails,
+    xButton,
+  },
 
-  export default defineComponent({
-    components: {
-      loader,
-      userDetails,
-      xButton,
-    },
+  setup() {
+    const store = useStore();
+    const user = computed(() => store.state.user);
+    const following = computed(() => store.state.following);
 
-    computed: {
-      ...mapState({
-        user: (state) => state.user,
-        following: (state) => state.following,
-      }),
-    },
+    const fetchFollowing = () => {
+      store.dispatch("following/fetchFollowing");
+    };
 
-    methods: {
-      ...mapActions({
-        fetchFollowing: "following/fetchFollowing",
-      }),
-    },
+    fetchFollowing();
 
-    created() {
-      this.fetchFollowing()
-    }
-  });
+    return {
+      user,
+      following,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
 .my-following {
 
   &__loading {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 0 0;
   }
 
-  &__error {
-  }
-
-  &__data {
-  }
-
-  &__no-data {
-  }
+	&__error {
+    font-size: 20px;
+    text-align: center;
+	}
 
   &__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 0 32px 0;
   }
 }
 

@@ -4,6 +4,7 @@
       <div class="header__headline">
         <slot name="headline"></slot>
       </div>
+      <slot name="myProfile"></slot>
       <div class="header__content" v-if="$slots.content">
         <slot name="content"></slot>
       </div>
@@ -29,8 +30,8 @@ export default defineComponent({
   }
 
   &__container {
-    max-width: 1220px;
-    padding: 0 10px;
+    max-width: 1240px;
+    padding: 0 20px;
     margin: 0 auto;
   }
 

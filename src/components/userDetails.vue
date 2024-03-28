@@ -61,8 +61,10 @@ export default defineComponent({
   &__name {
     font-size: 18px;
     font-weight: 600;
+    word-wrap: break-word;
 
     @media (max-width: 576px) {
+      max-width: 100px;
       font-size: 16px;
     }
   }

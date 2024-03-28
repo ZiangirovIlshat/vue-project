@@ -4,27 +4,34 @@
       <logo />
       <mainMenu :avatarUrl="user.data.avatar_url"/>
     </template>
+    <template #myProfile v-if="screenWidth <= 992">
+      <p class="header-user-detail-wrapper">
+        <authUserDetails :data="user.data"/>
+      </p>
+    </template>
   </topline>
-  <div class="my-profile">
-    <div class="my-profile__container">
-      <div class="my-profile__wrapper">
-        <div class="my-profile__column">
-          <h1>My profile</h1>
-          <authUserDetails :data="user.data"/>
-        </div>
-        <div class="my-profile__column">
-          <div class="my-profile__column-head">
-            <h2 v-if="page === 'repos'">Repositories</h2>
-            <h2 v-if="page === 'following'">Following</h2>
-            <span v-if="page === 'repos'">{{user.data.public_repos}}</span>
-            <span v-if="page === 'following'">{{user.data.following}}</span>
+  <main class="main">
+    <div class="my-profile">
+      <div class="my-profile__container">
+        <div class="my-profile__wrapper">
+          <div class="my-profile__column user-detail-wrapper" v-if="screenWidth >= 992">
+            <h1>My profile</h1>
+            <authUserDetails :data="user.data"/>
           </div>
-          <myRepos v-if="page === 'repos'"/>
-          <myFollowing v-if="page === 'following'"/>
+          <div class="my-profile__column content-wrapper">
+            <div class="my-profile__column-head" v-if="screenWidth > 992">
+              <h2 v-if="page === 'repos'">Repositories</h2>
+              <h2 v-if="page === 'following'">Following</h2>
+              <span v-if="page === 'repos'">{{user.data.public_repos}}</span>
+              <span v-if="page === 'following'">{{user.data.following}}</span>
+            </div>
+            <myRepos v-if="page === 'repos'"/>
+            <myFollowing v-if="page === 'following'"/>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -60,6 +67,7 @@
     data() {
       return {
         page: "Repositories",
+        screenWidth: window.innerWidth,
       }
     },
 
@@ -69,62 +77,94 @@
       }),
     },
 
+    methods: {
+      updateScreenWidth() {
+        this.screenWidth = window.innerWidth;
+      },
+    },
+
     created() {
-      this.page = this.$route.params.page
-    }
+      this.page = this.$route.params.page ? this.$route.params.page : "repos"
+      window.addEventListener('resize', this.updateScreenWidth);
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.updateScreenWidth);
+    },
   });
 </script>
 
 <style lang="scss" scoped>
+  .header-user-detail-wrapper {
+    margin: 40px 0 0 0;
+  }
+
   .my-profile {
     border-top: 1px solid #d3d3d3;
-    min-height: 100vh;
+    overflow: hidden;
 
 		&__container {
-      max-width: 1220px;
-      padding: 0 10px;
+      max-width: 1240px;
+      padding: 0 20px;
       margin: 0 auto;
-      min-height: 100%;
     }
 
     &__wrapper {
       display: flex;
-      max-width: 100%;
       min-height: 100%;
-    }
-
-    &__column {
-      padding: 40px 0 0 0;
-      box-sizing: border-box;
     }
 
     h1 {
       font-size: 26px;
       font-weight: 700;
       margin: 0 0 20px 0;
+      word-wrap: break-word;
     }
 
     h2 {
       font-size: 26px;
       font-weight: 700;
       margin: 0 0 30px 0;
+      word-wrap: break-word;
     }
 
     h3 {
       font-size: 26px;
       font-weight: 700;
       margin: 0 0 12px 0;
+      word-wrap: break-word;
     }
 
-    &__column:nth-child(1) {
-      flex: 0 0 30%;
-    }
+    &__column {
+      padding: 40px 0 0 0;
+      box-sizing: border-box;
+      min-height: calc(100vh - 107px);
 
-		&__column:nth-child(2) {
-      flex: 0 0 70%;
-      border-left: 1px solid #d3d3d3;
-      padding-left: 75px;
-		}
+      @media(max-width: 992px) {
+        min-height: auto;
+      }
+
+
+      &.user-detail-wrapper {
+        flex: 0 0 30%;
+        padding-right: 10px;
+
+        position: sticky;
+        top: 20px
+      }
+
+      &.content-wrapper {
+        flex: 0 0 70%;
+        border-left: 1px solid #d3d3d3;
+        padding-left: 75px;
+
+        @media(max-width: 992px) {
+          flex: 0 0 100%;
+          padding: 0;
+          border: 0;
+          margin: 24px 0 0 0;
+        }
+      }
+    }
 
     &__column-head {
       display: flex;

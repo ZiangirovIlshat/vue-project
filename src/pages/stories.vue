@@ -45,7 +45,7 @@
       </div>
       <button
         class="slider__buttons next"
-        v-if="activeSlide < (getUnstarredOnly - 1)"
+        v-if="activeSlide < (getUnstarredOnly.length - 1)"
         @click="nextBtnClick()"
       >
         <svg class="menu__icon" viewBox="0 0 24 24" width="24" height="24">

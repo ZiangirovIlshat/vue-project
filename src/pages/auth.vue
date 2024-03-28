@@ -1,33 +1,35 @@
 <template>
-  <div class="auth-page">
-    <div class="auth-page__body">
-      <div class="auth-page__text-content">
-        <logo />
-        <p>More than just one repository.<br>This is our digital world.</p>
-        <xButton @click="getCode">
-          Authorize with github
-          <svg viewBox="0 0 24 24" width="24" height="24">
-            <use href="../assets/sprite.svg#git" x="0" y="0"></use>
-          </svg>
-        </xButton>
-        <p class="auth-page__err-message" v-if="errMessage">{{errMessage}}</p>
-      </div>
-      <div class="auth-page__img">
-        <template v-if="screenWidth >= 768">
-          <img src="../assets/device.png" alt="Gitogram">
-        </template>
-        <template v-if="screenWidth < 768 && screenWidth > 576">
-          <img src="../assets/device-tablet.png" alt="Gitogram">
-        </template>
-        <template v-if="screenWidth <= 576">
-          <img src="../assets/device-mobile.png" alt="Gitogram">
-        </template>
+  <main class="main">
+    <div class="auth-page">
+      <div class="auth-page__body">
+        <div class="auth-page__text-content">
+          <logo />
+          <p>More than just one repository.<br>This is our digital world.</p>
+          <xButton @click="getCode">
+            Authorize with github
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <use href="../assets/sprite.svg#git" x="0" y="0"></use>
+            </svg>
+          </xButton>
+          <p class="auth-page__err-message" v-if="errMessage">{{errMessage}}</p>
+        </div>
+        <div class="auth-page__img">
+          <template v-if="screenWidth >= 768">
+            <img src="../assets/device.png" alt="Gitogram">
+          </template>
+          <template v-if="screenWidth < 768 && screenWidth > 576">
+            <img src="../assets/device-tablet.png" alt="Gitogram">
+          </template>
+          <template v-if="screenWidth <= 576">
+            <img src="../assets/device-mobile.png" alt="Gitogram">
+          </template>
+        </div>
       </div>
     </div>
-    <footer class="auth-page__footer">
-      <p>© Gitogram from Loftschool</p>
-    </footer>
-  </div>
+  </main>
+  <footer class="auth-page__footer">
+    <p>© Gitogram from Loftschool</p>
+  </footer>
 </template>
 
 <script>
@@ -106,18 +108,13 @@ export default {
 
 <style lang="scss" scoped>
 .auth-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   
   &__body {
-    flex: 1 0 100%;
     padding: 0 10px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
   }
 
   &__text-content {

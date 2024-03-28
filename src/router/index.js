@@ -7,6 +7,8 @@ import stories from "../pages/stories"
 import myProfile from "../pages/myProfile"
 import auth from "../pages/auth"
 
+import notFound from "../pages/notFound"
+
 
 const routes = [
   {
@@ -21,14 +23,18 @@ const routes = [
     component: stories,
   },
   {
-    path: "/myprofile/:page?",
+    path: "/myprofile/:page(repos|following)?",
     name: "myProfile",
-    component: myProfile,
+    component: myProfile
   },
   {
     path: "/auth",
     name: "auth",
     component: auth,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: notFound,
   },
 ]
 

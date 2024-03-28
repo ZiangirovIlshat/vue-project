@@ -18,12 +18,11 @@
 </template>
 
 <script>
-  import { defineComponent } from "vue";
-
-  import { mapState, mapActions, mapGetters } from "vuex";
+  import { defineComponent, computed, onMounted } from "vue";
+  import { useStore } from "vuex";
 
   import loader from "../components/loader.vue";
-  import postDetails from "../components/postDetails.vue"
+  import postDetails from "../components/postDetails.vue";
 
   export default defineComponent({
     components: {
@@ -31,35 +30,40 @@
       postDetails,
     },
 
-    computed: {
-      ...mapState({
-        user: (state) => state.user,
-        repos: (state) => state.repos,
-      }),
-    },
+    setup() {
+      const store = useStore();
 
-    methods: {
-      ...mapActions({
-        fetchRepos: "repos/fetchRepos",
-      }),
-    },
+      const user = computed(() => store.state.user);
+      const repos = computed(() => store.state.repos);
 
-    created() {
-      this.fetchRepos(this.user.data.login)
-    }
+      const fetchRepos = () => {
+        store.dispatch("repos/fetchRepos", user.value.data.login);
+      };
+
+      onMounted(() => {
+        fetchRepos();
+      });
+
+      return {
+        user,
+        repos,
+      };
+    },
   });
 </script>
 
 <style lang="scss" scoped>
   .my-repos {
 
-		&__loading {
-		}
+    &__loading {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0 0 0;
+    }
 
 		&__error {
-		}
-
-		&__data {
+      font-size: 20px;
+      text-align: center;
 		}
 
 		&__repo-item {
@@ -69,14 +73,26 @@
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.04);
       margin: 0 0 20px 0;
 
+      @media(max-width: 768px) {
+        padding: 20px;
+      }
+
       h3 {
         margin: 0 0 12px 0;
         font-size: 26px;
         font-weight: 700;
+
+        @media(max-width: 768px) {
+          font-size: 22px;
+        }
       }
 
       p {
         margin: 0 0 50px 0;
+
+        @media(max-width: 768px) {
+          margin: 0 0 14px 0;
+        }
       }
 		}
   }

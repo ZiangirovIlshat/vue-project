@@ -1,14 +1,12 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router";
 
 import store from "../store/index";
 
-import feeds from "../pages/feeds"
-import stories from "../pages/stories"
-import myProfile from "../pages/myProfile"
-import auth from "../pages/auth"
-
-import notFound from "../pages/notFound"
-
+import feeds from "../pages/feeds";
+import stories from "../pages/stories";
+import myProfile from "../pages/myProfile";
+import auth from "../pages/auth";
+import notFound from "../pages/notFound";
 
 const routes = [
   {
@@ -25,7 +23,7 @@ const routes = [
   {
     path: "/myprofile/:page(repos|following)?",
     name: "myProfile",
-    component: myProfile
+    component: myProfile,
   },
   {
     path: "/auth",
@@ -36,16 +34,15 @@ const routes = [
     path: "/:pathMatch(.*)*",
     component: notFound,
   },
-]
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  base: '/vue-project/dist/',
+  history: createWebHashHistory(), // Изменили createWebHistory на createWebHashHistory здесь
   routes,
-})
+});
 
-router.beforeEach( async (to, from, next)=> {
-  if(to.name === "auth") {
+router.beforeEach(async (to, from, next) => {
+  if (to.name === "auth") {
     next();
     return;
   }
@@ -53,9 +50,9 @@ router.beforeEach( async (to, from, next)=> {
   try {
     await store.dispatch("user/fetchUser");
     next();
-  } catch (e){
-    next({name: "auth"});
+  } catch (e) {
+    next({ name: "auth" });
   }
-})
+});
 
-export default router
+export default router;

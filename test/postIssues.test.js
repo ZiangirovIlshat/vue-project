@@ -22,7 +22,7 @@ describe("Post component", ()=> {
 
     await toggler.trigger("click");
 
-    expect(toggler.text()).toBe("Show issues");
+    expect(toggler.text()).toBe("View issues");
   });
 
   it("fetches issues on toggle", async () => {

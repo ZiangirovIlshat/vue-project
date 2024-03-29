@@ -1,9 +1,9 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import post from "../src/components/post.vue";
 
 describe("Post component", ()=> {
   it("changes the label Show/Hide issues on toggle", async () => {
-    const wrapper = mount(post, {
+    const wrapper = shallowMount(post, {
       props: {
         postData: {
           ownerLogin: "Иванов Иван",

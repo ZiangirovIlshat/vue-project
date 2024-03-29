@@ -35,6 +35,7 @@ import toggler from "../components/toggler";
 import preloader from "../components/preloader";
 
 export default defineComponent({
+  config: {},
   name: "post",
 
   components: {

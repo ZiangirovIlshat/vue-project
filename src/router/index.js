@@ -40,6 +40,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
+  base: '/vue-project/dist/',
   routes,
 })
 
@@ -53,7 +54,6 @@ router.beforeEach( async (to, from, next)=> {
     await store.dispatch("user/fetchUser");
     next();
   } catch (e){
-    console.log(e)
     next({name: "auth"});
   }
 })

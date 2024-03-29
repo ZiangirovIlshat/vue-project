@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import post from "../components/post.vue";
+import post from "../src/components/post.vue";
 
 describe("Post component", ()=> {
   it("changes the label Show/Hide issues on toggle", async () => {
